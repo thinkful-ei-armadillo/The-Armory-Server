@@ -1,5 +1,5 @@
 BEGIN;
-TRUNCATE party, games, users;
+TRUNCATE roles, requirements, party, party_requirements, party_apps, spot_roles, spots, games, users;
 INSERT INTO users (id, username, email, password, avatar_url, not_verified)
 VALUES(
     1,
@@ -59,11 +59,13 @@ VALUES(
     '{"First-person shooter", "Team-based", "Hero-shooter"}'
 );
 
-INSERT INTO party (id, game_id, require_app, owner_id)
+INSERT INTO party (id, game_id, title, require_app, owner_id, description)
 VALUES (
     1,
     1,
+    'Try Hards',
     true,
-    1
+    1,
+    'This is a description of this party.'
 );
 COMMIT;

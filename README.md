@@ -24,3 +24,11 @@ Run the tests `npm test`
 ## Deploying
 
 When your new project is ready for deployment, add a new Heroku application with `heroku create`. This will make a new git remote called "heroku" and you can then `npm run deploy` which will push to this remote's master branch.
+
+## Seeding Database
+
+Copy .csv files from shared Google Docs and save locally
+Run seed.tables.sql
+Go to dbeaver, right click on table, import data, select .csv file, next until finished
+Do for both requirement and roles tables
+Run seed.aftercsv.sql
