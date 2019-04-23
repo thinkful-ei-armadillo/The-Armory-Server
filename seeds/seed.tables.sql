@@ -1,5 +1,5 @@
 BEGIN;
-TRUNCATE party_apps, spot_roles, spots, party_requirements, roles, requirements, party, games, users;
+TRUNCATE party, games, users;
 INSERT INTO users (id, username, email, password, avatar_url, not_verified)
 VALUES(
     1,
@@ -32,7 +32,7 @@ VALUES(
     4,
     'Fortnite',
     'https://cdn.gamerant.com/wp-content/uploads/fortnite-season-8-week-4-challenge-leak.jpg.optimal.jpg',
-    '{"Third-person shooter", "Team-based", "Battle Royale"}',
+    '{"Third-person shooter", "Team-based", "Battle Royale"}'
 ),
 (
     5,
@@ -66,3 +66,4 @@ VALUES (
     true,
     1
 );
+COMMIT;
