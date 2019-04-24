@@ -12,6 +12,13 @@ const GamesService = {
         .from('games')
         .leftJoin('party', 'games.id', 'party.game_id')
         .groupBy(1)
+    },
+    getGameById(db, id){
+        return db
+        .select('*')
+        .from('games')
+        .where('games.id', id)
+        .first()
     }
 }
 
