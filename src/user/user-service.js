@@ -20,7 +20,7 @@ const UserService = {
     return db
       .from('users')
       .select('id')
-      .where({username})
+      .where({username});
   },
   getUserInfo(db, userId){
     return db 
