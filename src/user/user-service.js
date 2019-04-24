@@ -22,6 +22,13 @@ const UserService = {
       .select('id')
       .where({username})
   },
+  getUserInfo(db, userId){
+    return db 
+      .from('users')
+      .select('username', 'avatar_url')
+      .where('id', userId)
+      .first();
+  },
   insertUser(db, newUser) {
     return db
       .insert(newUser)
