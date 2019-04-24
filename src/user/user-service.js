@@ -29,6 +29,12 @@ const UserService = {
       .where('id', userId)
       .first();
   },
+  updateUser(db, userId, userInfo){
+    return db
+      .from('users')
+      .where('id', userId)
+      .update(userInfo);
+  },
   insertUser(db, newUser) {
     return db
       .insert(newUser)
@@ -57,7 +63,7 @@ const UserService = {
   serializeUser(user){
     return {
       id: user.id,
-      username: xss(user.name),
+      username: xss(user.username),
       email: xss(user.email),
     };
   },
