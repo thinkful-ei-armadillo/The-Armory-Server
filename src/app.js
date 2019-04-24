@@ -8,15 +8,15 @@ const { NODE_ENV } = require('./config');
 const app = express();
 const gamesRouter = require('./games/games-router');
 
+const PartyRouter = require('./party/party-router');
+
 const morganOption = NODE_ENV === 'production' ? 'tiny' : 'common';
 
 app.use(morgan(morganOption));
 app.use(helmet());
 app.use(cors());
 
-app.get('/', (req, res) => {
-  res.send('Hello, world!');
-});
+app.use('/api/games/', PartyRouter);
 
 app.use('/api/games', gamesRouter);
 
