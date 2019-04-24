@@ -71,12 +71,12 @@ userRouter.patch(
     const userId = req.params.userId;
     const { password, email, avatar_url } = req.body;
     const updates = {};
-    if(!password && !email && !avatar_url){
-      return res.status(400).json({
-        error: 'Nothing to update'});}
     try {
-      const hashedPassword = await UserService.hashPassword(password);
+      if(!password && !email && !avatar_url){
+        return res.status(400).json({
+          error: 'Nothing to update'});}
       if (password) {
+        const hashedPassword = await UserService.hashPassword(password);
         updates.password = hashedPassword; }
       if (email) { 
         updates.email = email; }
