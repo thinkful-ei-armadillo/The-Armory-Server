@@ -1,6 +1,6 @@
 const PartyService = {
-  getAllParties(db, gameId, search_filter, tag_filter, sort_filter) {
-    return db
+  getAllParties(db, gameId) {
+    let baseRequest = db
       .from('party AS p')
       .select(
         'p.id',
@@ -27,7 +27,11 @@ const PartyService = {
         'roles AS r',
         'sr.role_id',
         'r.id'
-      );
+      )
+      .where('p.game_id', gameId);
+
+    //MOVE ROLES AND REQUIREMENTS TO A STORE.JS, ELIMINATE THE LEFT JOIN
+    return baseRequest;
   },
 };
 
