@@ -1,2 +1,0 @@
-DROP TABLE IF EXISTS requirements;
-DROP TABLE IF EXISTS roles;

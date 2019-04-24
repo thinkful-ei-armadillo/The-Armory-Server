@@ -4,6 +4,8 @@ const PartyRouter = express.Router();
 const xss = require('xss');
 const Treeize = require('treeize');
 const UserService = require('../user/user-service');
+const ROLES_STORE = require('../store/roles');
+const REQUIREMENT_STORE = require('../store/roles');
 
 PartyRouter
   .get('/:gameId/parties', async (req, res, next) => {
@@ -27,6 +29,14 @@ PartyRouter
             username,
             avatar_url
           };
+        }
+        const role_id = party['spots:roles:title'];
+        if (role_id) {
+          party['spots:roles:title'] = ROLES_STORE[role_id].title;
+        }
+        const req_id = party['reqs:title'];
+        if (req_id) {
+          party['reqs:title'] = REQUIREMENT_STORE[req_id].title;
         }
         return party;
       }));

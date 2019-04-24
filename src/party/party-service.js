@@ -9,9 +9,10 @@ const PartyService = {
         'p.owner_id',
         'p.description',
         'p.require_app',
+        'pr.requirement_id AS reqs:title',
         's.id AS spots:id',
         's.filled AS spots:filled',
-        'r.title AS spots:roles:title'
+        'sr.role_id AS spots:roles:title'
       )
       .leftJoin(
         'spots AS s',
@@ -19,14 +20,14 @@ const PartyService = {
         's.party_id'
       )
       .leftJoin(
+        'party_requirements AS pr',
+        'pr.party_id',
+        'p.id'
+      )
+      .leftJoin(
         'spot_roles AS sr',
         'sr.spot_id',
         's.id'
-      )
-      .leftJoin(
-        'roles AS r',
-        'sr.role_id',
-        'r.id'
       )
       .where('p.game_id', gameId);
 
