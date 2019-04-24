@@ -14,7 +14,7 @@ VALUES(
     1,
     'Overwatch',
     'https://static.playoverwatch.com/media/wallpaper/logo-burst-wide.jpg',
-    '{"First-person shooter", "Team-based", "Hero-shooter"}'
+    '{"Shooter", "FPS"}'
 ),
 (
     2,
@@ -26,42 +26,42 @@ VALUES(
     3,
     'League of Legends',
     'http://paperlief.com/images/league-of-legends-champions-wallpaper-3.jpg',
-    '{"MOBA", "Team-based", "Strategy"}'
+    '{"MOBA"}'
 ),
 (
     4,
     'Fortnite',
     'https://cdn.gamerant.com/wp-content/uploads/fortnite-season-8-week-4-challenge-leak.jpg.optimal.jpg',
-    '{"Third-person shooter", "Team-based", "Battle Royale"}'
+    '{"Shooter", "Battle Royale"}'
 ),
 (
     5,
     'Apex Legends',
     'https://gameguidehq.com/wp-content/uploads/2019/02/apex_legends_intro_wallpaper.jpg',
-    '{"First-person shooter", "Team-based", "Hero-shooter", "Battle Royale"}'
+    '{"Shooter", "FPS", "Battle Royale"}'
 ),
 (
     6,
     'DOTA 2',
     'https://cdn.windowsreport.com/wp-content/uploads/2017/01/dota-2-cant-connect-to-game-server.png',
-    '{"MOBA", "Team-based", "Strategy"}'
+    '{"MOBA"}'
 ),
 (
     7,
     'CSGO',
     'https://steamuserimages-a.akamaihd.net/ugc/3336341088177464117/8D53A0CBBA686F16DC97FD2722D4F6174D6897EB/',
-    '{"First-person shooter", Team-based}'
+    '{"Shooter", "FPS"}'
 ),
 (
     8,
     'Rainbow 6 Siege',
     'https://i.redd.it/iznunq2m8vgy.png',
-    '{"First-person shooter", "Team-based", "Hero-shooter"}'
+    '{"Shooter", "FPS"}'
 );
 
 INSERT INTO party (id, game_id, title, require_app, owner_id, description)
 VALUES (
-    1,
+    'fb1d3c63-6a72-4013-be82-5b523c1dd1cd',
     1,
     'Try Hards',
     true,
