@@ -9,10 +9,10 @@ const PartyService = {
         'p.owner_id',
         'p.description',
         'p.require_app',
-        'pr.requirement_id AS reqs:title',
+        'pr.requirement_id AS reqs:id',
         's.id AS spots:id',
         's.filled AS spots:filled',
-        'sr.role_id AS spots:roles:title'
+        'sr.role_id AS spots:roles:id'
       )
       .leftJoin(
         'spots AS s',

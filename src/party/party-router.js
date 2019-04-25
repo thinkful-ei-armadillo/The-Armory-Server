@@ -33,14 +33,6 @@ PartyRouter
             avatar_url
           };
         }
-        const role_id = party['spots:roles:title'];
-        if (role_id) {
-          party['spots:roles:title'] = ROLES_STORE[role_id].title;
-        }
-        const req_id = party['reqs:title'];
-        if (req_id) {
-          party['reqs:title'] = REQUIREMENT_STORE[req_id].title;
-        }
         return party;
       }));
 
