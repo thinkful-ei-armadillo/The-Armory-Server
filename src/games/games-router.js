@@ -13,6 +13,12 @@ gamesRouter.get("/", async (req, res, next) => {
     games.map(game => {
       const match = partyCount.find(item => item.id === game.id);
       game.party_count = match.party_count;
+
+      const gameRoles = ROLES_STORE[game.id];
+      const gameRequirements = REQUIREMENTS_STORE[game.id];
+      game.roles = gameRoles;
+      game.requirements = gameRequirements;
+
       array.push(game);
     });
 
@@ -30,8 +36,14 @@ gamesRouter.route("/:id").get(async (req, res, next) => {
     const partyCount = await GamesService.getPartyCount(req.app.get("db"));
     const gameParty = partyCount.find(item => item.id === game.id);
 
-    game.party_count = gameParty.party_count;
+    const gameRoles = ROLES_STORE[id];
+    const gameRequirements = REQUIREMENTS_STORE[id];
+    game.roles = gameRoles;
+    game.requirements = gameRequirements;
 
+    game.party_count = gameParty.party_count;
+   
+    console.log(game);
     res.status(200).json(game);
   } catch (error) {
     next(error);
