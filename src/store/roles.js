@@ -1,326 +1,120 @@
 const ROLES_STORE = {
   'aa0e8ce9-1a71-42e7-804d-6838556fa6ed': {
-    1: {
-      title: 'Tank'
-    },
-    2: {
-      title: 'Support'
-    },
-    3: {
-      title: 'Damage'
-    },
-    4: {
-      title: 'D.Va'
-    },
-    5: {
-      title: 'Orisa'
-    },
-    6: {
-      title: 'Reinhardt'
-    },
-    7: {
-      title: 'Roadhog'
-    },
-    8: {
-      title: 'Winston'
-    },
-    9: {
-      title: 'Wrecking Ball'
-    },
-    10: {
-      title: 'Zarya'
-    },
-    11: {
-      title: 'Ashe'
-    },
-    12: {
-      title: 'Bastion'
-    },
-    13: {
-      title: 'Doomfist'
-    },
-    14: {
-      title: 'Genji'
-    },
-    15: {
-      title: 'Hanzo'
-    },
-    16: {
-      title: 'Junkrat'
-    },
-    17: {
-      title: 'McCree'
-    },
-    18: {
-      title: 'Mei'
-    },
-    19: {
-      title: 'Pharah'
-    },
-    20: {
-      title: 'Reaper'
-    },
-    21: {
-      title: 'Soldier: 76'
-    },
-    22: {
-      title: 'Sombra'
-    },
-    23: {
-      title: 'Symmetra'
-    },
-    24: {
-      title: 'TorbjÃ¶rn'
-    },
-    25: {
-      title: 'Tracer'
-    },
-    26: {
-      title: 'Widowmaker'
-    },
-    27: {
-      title: 'Ana'
-    },
-    28: {
-      title: 'Baptiste'
-    },
-    29: {
-      title: 'Brigitte'
-    },
-    30: {
-      title: 'LÃºcio'
-    },
-    31: {
-      title: 'Mercy'
-    },
-    32: {
-      title: 'Moira'
-    },
-    33: {
-      title: 'Zenyatta'
-    },
+    1: 'Tank',
+    2: 'Support',
+    3: 'Damage',
+    4: 'D.Va',
+    5: 'Orisa',
+    6: 'Reinhardt',
+    7: 'Roadhog',
+    8: 'Winston',
+    9: 'Wrecking Ball',
+    10: 'Zarya',
+    11: 'Ashe',
+    12: 'Bastion',
+    13: 'Doomfist',
+    14: 'Genji',
+    15: 'Hanzo',
+    16: 'Junkrat',
+    17: 'McCree',
+    18: 'Mei',
+    19: 'Pharah',
+    20: 'Reaper',
+    21: 'Soldier: 76',
+    22: 'Sombra',
+    23: 'Symmetra',
+    24: 'TorbjÃ¶rn',
+    25: 'Tracer',
+    26: 'Widowmaker',
+    27: 'Ana',
+    28: 'Baptiste',
+    29: 'Brigitte',
+    30: 'LÃºcio',
+    31: 'Mercy',
+    32: 'Moira',
+    33: 'Zenyatta',
   },
   '1c0aa6f7-0e03-4ceb-82de-ac53617f1b30': {
-    1: {
-      title: 'DPS'
-    },
-    2: {
-      title: 'Tank'
-    },
-    3: {
-      title: 'Healer'
-    },
-    4: {
-      title: 'Crafter'
-    },
-    5: {
-      title: 'Gatherer'
-    },
-    6: {
-      title: 'Warrior'
-    },
-    7: {
-      title: 'Paladin'
-    },
-    8: {
-      title: 'Dark Knight'
-    },
-    9: {
-      title: 'Gunbreaker'
-    },
-    10: {
-      title: 'Dragoon'
-    },
-    11: {
-      title: 'Monk'
-    },
-    12: {
-      title: 'Ninja'
-    },
-    13: {
-      title: 'Samurai'
-    },
-    14: {
-      title: 'Bard'
-    },
-    15: {
-      title: 'Machinist'
-    },
-    16: {
-      title: 'Dancer'
-    },
-    17: {
-      title: 'Black Mage'
-    },
-    18: {
-      title: 'Summoner'
-    },
-    19: {
-      title: 'Red Mage'
-    },
-    20: {
-      title: 'Blue Mage'
-    },
-    21: {
-      title: 'White Mage'
-    },
-    22: {
-      title: 'Scholar'
-    },
-    23: {
-      title: 'Astrologian'
-    },
-    24: {
-      title: 'Miner'
-    },
-    25: {
-      title: 'Botanist'
-    },
-    26: {
-      title: 'Fisher'
-    },
-    27: {
-      title: 'Carpenter'
-    },
-    28: {
-      title: 'Blacksmith'
-    },
-    29: {
-      title: 'Armorer'
-    },
-    30: {
-      title: 'Goldsmith'
-    },
-    31: {
-      title: 'Leatherworker'
-    },
-    32: {
-      title: 'Weaver'
-    },
-    33: {
-      title: 'Alchemist'
-    },
-    34: {
-      title: 'Culinarian'
-    },
+    1: 'DPS',
+    2: 'Tank',
+    3: 'Healer',
+    4: 'Crafter',
+    5: 'Gatherer',
+    6: 'Warrior',
+    7: 'Paladin',
+    8: 'Dark Knight',
+    9: 'Gunbreaker',
+    10: 'Dragoon',
+    11: 'Monk',
+    12: 'Ninja',
+    13: 'Samurai',
+    14: 'Bard',
+    15: 'Machinist',
+    16: 'Dancer',
+    17: 'Black Mage',
+    18: 'Summoner',
+    19: 'Red Mage',
+    20: 'Blue Mage',
+    21: 'White Mage',
+    22: 'Scholar',
+    23: 'Astrologian',
+    24: 'Miner',
+    25: 'Botanist',
+    26: 'Fisher',
+    27: 'Carpenter',
+    28: 'Blacksmith',
+    29: 'Armorer',
+    30: 'Goldsmith',
+    31: 'Leatherworker',
+    32: 'Weaver',
+    33: 'Alchemist',
+    34: 'Culinarian',
   },
   '2e443716-4f9e-4a1c-89c9-ad4801f6dcc0': {
-    1: {
-      title: 'Top'
-    },
-    2: {
-      title: 'Jungle'
-    },
-    3: {
-      title: 'Mid'
-    },
-    4: {
-      title: 'ADC/Marksman'
-    },
-    5: {
-      title: 'Support'
-    },
-    6: {
-      title: 'Tank'
-    },
-    7: {
-      title: 'Utility'
-    },
-    8: {
-      title: 'DPS'
-    },
-    9: {
-      title: 'Healer'
-    },
+    1: 'Top',
+    2: 'Jungle',
+    3: 'Mid',
+    4: 'ADC/Marksman',
+    5: 'Support',
+    6: 'Tank',
+    7: 'Utility',
+    8: 'DPS',
+    9: 'Healer',
   },
   'c30ca766-064e-4ca1-b1bd-1a88d41993f8': {
-    1: {
-      title: 'Bangalore'
-    },
-    2: {
-      title: 'Bloodhound'
-    },
-    3: {
-      title: 'Caustic'
-    },
-    4: {
-      title: 'Gibraltar'
-    },
-    5: {
-      title: 'Lifeline'
-    },
-    6: {
-      title: 'Mirage'
-    },
-    7: {
-      title: 'Pathfinder'
-    },
-    8: {
-      title: 'Wraith'
-    },
-    9: {
-      title: 'Octane'
-    },
+    1: 'Bangalore',
+    2: 'Bloodhound',
+    3: 'Caustic',
+    4: 'Gibraltar',
+    5: 'Lifeline',
+    6: 'Mirage',
+    7: 'Pathfinder',
+    8: 'Wraith',
+    9: 'Octane',
   },
   'daf6b132-61e6-45a1-81e4-1bac7657790a': {
-    1: {
-      title: 'Hard Carry'
-    },
-    2: {
-      title: 'Mid'
-    },
-    3: {
-      title: 'Offlane'
-    },
-    4: {
-      title: 'Offlane Support'
-    },
-    5: {
-      title: 'Roamer'
-    },
-    6: {
-      title: 'Support'
-    },
+    1: 'Hard Carry',
+    2: 'Mid',
+    3: 'Offlane',
+    4: 'Offlane Support',
+    5: 'Roamer',
+    6: 'Support',
   },
   '0be67bb2-4c4f-4046-961a-45f3ff94c32f': {
-    1: {
-      title: 'In Game Leader'
-    },
-    2: {
-      title: 'Rifler'
-    },
-    3: {
-      title: 'AWPer'
-    },
-    4: {
-      title: 'Entry Fragger'
-    },
-    5: {
-      title: 'Flex'
-    },
+    1: 'In Game Leader',
+    2: 'Rifler',
+    3: 'AWPer',
+    4: 'Entry Fragger',
+    5: 'Flex',
   },
   'ce4c02e2-02fd-4f9e-9686-ecc9385eb1d5': {
-    1: {
-      title: 'In Game Leader'
-    },
-    2: {
-      title: 'Flex'
-    },
-    3: {
-      title: 'Entry Fragger'
-    },
-    4: {
-      title: 'Flank Watcher'
-    },
-    5: {
-      title: 'Support'
-    },
-    6: {
-      title: 'Anchor'
-    },
-    7: {
-      title: 'Roamer'
-    },
+    1: 'In Game Leader',
+    2: 'Flex',
+    3: 'Entry Fragger',
+    4: 'Flank Watcher',
+    5: 'Support',
+    6: 'Anchor',
+    7: 'Roamer',
   }
 };
 
