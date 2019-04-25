@@ -17,7 +17,7 @@ app.use(helmet());
 app.use(cors());
 
 app.use('/api/user', userRouter);
-app.use('/api/games/', PartyRouter);
+app.use('/api/parties', PartyRouter);
 app.use('/api/games', gamesRouter);
 
 app.use(function errorHandler(error, req, res, next) {
