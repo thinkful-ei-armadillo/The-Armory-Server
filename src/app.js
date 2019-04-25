@@ -9,6 +9,7 @@ const app = express();
 const userRouter = require('./user/user-router');
 const gamesRouter = require('./games/games-router');
 const PartyRouter = require('./party/party-router');
+const authRouter = require('./auth/auth-router');
 
 const morganOption = NODE_ENV === 'production' ? 'tiny' : 'common';
 
@@ -19,6 +20,7 @@ app.use(cors());
 app.use('/api/user', userRouter);
 app.use('/api/parties', PartyRouter);
 app.use('/api/games', gamesRouter);
+app.use('/api/auth', authRouter)
 
 app.use(function errorHandler(error, req, res, next) {
   let response;
