@@ -1,6 +1,6 @@
 const PartyService = {
-  getAllParties(db, gameId) {
-    let baseRequest = db
+  getPartyById(db, partyId) {
+    return db
       .from('party AS p')
       .select(
         'p.id',
@@ -29,11 +29,8 @@ const PartyService = {
         'sr.spot_id',
         's.id'
       )
-      .where('p.game_id', gameId)
-      .andWhere('p.filled', false);
-
-    return baseRequest;
-  },
+      .where('p.id', partyId);
+  }
 };
 
 module.exports = PartyService;

@@ -1,34 +1,26 @@
 const express = require('express');
 const PartyService = require('./party-service');
 const PartyRouter = express.Router();
+const UserService = require('../user/user-service');
 const xss = require('xss');
 const Treeize = require('treeize');
-const UserService = require('../user/user-service');
-const ROLES_STORE = require('../store/roles');
-const REQUIREMENT_STORE = require('../store/roles');
 
 PartyRouter
-  .get('/:gameId/parties', async (req, res, next) => {
-    //can filter by TAG (via tabs)
-    //can search by NAME (via search bar)
-    //includes a COUNT of all parties
-    const { gameId } = req.params;
+  .get('/:partyId', async (req, res, next) => {
+    const { partyId } = req.params;
     try {
-      let parties = await PartyService.getAllParties(
+      let parties = await PartyService.getPartyById(
         req.app.get('db'),
-        gameId
+        partyId
       );
       const tree = new Treeize().setOptions({ output: { prune: false }}); //prevents removal of 'null'
 
       // Get user information for filled spots
       parties = await Promise.all(parties.map(async party => {
         if (party['spots:filled']) {
-          const { id, username, avatar_url } = await UserService.getUserInfo(req.app.get('db'), party['spots:filled']); //Get this from Will
-
-          //if id === owner id, map it to owner
+          const { username, avatar_url } = await UserService.getUserInfo(req.app.get('db'), party['spots:filled']); //Get this from Will
 
           party['spots:filled'] = {
-            id,
             username,
             avatar_url
           };
