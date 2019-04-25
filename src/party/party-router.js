@@ -24,6 +24,9 @@ PartyRouter
       parties = await Promise.all(parties.map(async party => {
         if (party['spots:filled']) {
           const { id, username, avatar_url } = await UserService.getUserInfo(req.app.get('db'), party['spots:filled']); //Get this from Will
+
+          //if id === owner id, map it to owner
+
           party['spots:filled'] = {
             id,
             username,

@@ -29,9 +29,9 @@ const PartyService = {
         'sr.spot_id',
         's.id'
       )
-      .where('p.game_id', gameId);
+      .where('p.game_id', gameId)
+      .andWhere('p.filled', false);
 
-    //MOVE ROLES AND REQUIREMENTS TO A STORE.JS, ELIMINATE THE LEFT JOIN
     return baseRequest;
   },
 };

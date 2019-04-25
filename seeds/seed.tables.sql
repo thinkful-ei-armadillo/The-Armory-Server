@@ -9,64 +9,73 @@ VALUES(
     'https://www.dropbox.com/s/x05f307un1oind2/IMG_3504%20copy.jpg?dl=0',
     null
     );
-INSERT INTO games (id, title, image_url, tags)
+INSERT INTO games (id, title, image_url, tags, party_limit)
 VALUES(
     'aa0e8ce9-1a71-42e7-804d-6838556fa6ed',
     'Overwatch',
     'https://static.playoverwatch.com/media/wallpaper/logo-burst-wide.jpg',
-    '{"Shooter", "FPS"}'
+    '{"Shooter", "FPS"}',
+    6
 ),
 (
     '1c0aa6f7-0e03-4ceb-82de-ac53617f1b30',
     'Final Fantasy XIV',
     'https://img.finalfantasyxiv.com/lds/h/a/-A_KTovWBuvRDUZIadls49CHpk.jpg',
-    '{"MMORPG"}'
+    '{"MMORPG"}',
+    8
 ),
 (
     '2e443716-4f9e-4a1c-89c9-ad4801f6dcc0',
     'League of Legends',
     'http://paperlief.com/images/league-of-legends-champions-wallpaper-3.jpg',
-    '{"MOBA"}'
+    '{"MOBA"}',
+    5
 ),
 (
     '1b1d0771-c2c7-4d3b-a13e-b89bbf0acbd7',
     'Fortnite',
     'https://cdn.gamerant.com/wp-content/uploads/fortnite-season-8-week-4-challenge-leak.jpg.optimal.jpg',
-    '{"Shooter", "Battle Royale"}'
+    '{"Shooter", "Battle Royale"}',
+    4
 ),
 (
     'c30ca766-064e-4ca1-b1bd-1a88d41993f8',
     'Apex Legends',
     'https://gameguidehq.com/wp-content/uploads/2019/02/apex_legends_intro_wallpaper.jpg',
-    '{"Shooter", "FPS", "Battle Royale"}'
+    '{"Shooter", "FPS", "Battle Royale"}',
+    3
 ),
 (
     'daf6b132-61e6-45a1-81e4-1bac7657790a',
     'DOTA 2',
     'https://cdn.windowsreport.com/wp-content/uploads/2017/01/dota-2-cant-connect-to-game-server.png',
-    '{"MOBA"}'
+    '{"MOBA"}',
+    5
 ),
 (
     '0be67bb2-4c4f-4046-961a-45f3ff94c32f',
     'CSGO',
     'https://steamuserimages-a.akamaihd.net/ugc/3336341088177464117/8D53A0CBBA686F16DC97FD2722D4F6174D6897EB/',
-    '{"Shooter", "FPS"}'
+    '{"Shooter", "FPS"}',
+    6
 ),
 (
     'ce4c02e2-02fd-4f9e-9686-ecc9385eb1d5',
     'Rainbow 6 Siege',
     'https://i.redd.it/iznunq2m8vgy.png',
-    '{"Shooter", "FPS"}'
+    '{"Shooter", "FPS"}',
+    6
 );
 
-INSERT INTO party (id, game_id, title, require_app, owner_id, description)
+INSERT INTO party (id, game_id, title, require_app, owner_id, description, filled)
 VALUES (
     'fb1d3c63-6a72-4013-be82-5b523c1dd1cd',
     'aa0e8ce9-1a71-42e7-804d-6838556fa6ed',
     'Try Hards',
     true,
     1,
-    'This is a description of this party.'
+    'This is a description of this party.',
+    false
 );
 
 INSERT INTO party_requirements (id, requirement_id, party_id)

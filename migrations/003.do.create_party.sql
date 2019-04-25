@@ -4,5 +4,6 @@ CREATE TABLE party(
     title TEXT NOT NULL,
     require_app BOOLEAN,
     owner_id INT NOT NULL UNIQUE REFERENCES users(id) ON DELETE CASCADE,
-    description VARCHAR(140)
+    description VARCHAR(140),
+    filled BOOLEAN
 );
