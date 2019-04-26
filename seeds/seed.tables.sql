@@ -6,7 +6,7 @@ VALUES(
     'admin',
     'armorysquad@gmail.com',
     '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
-    'https://www.dropbox.com/s/x05f307un1oind2/IMG_3504%20copy.jpg?dl=0',
+    'https://i.ebayimg.com/images/g/PfAAAOSwA3dYIPRN/s-l300.jpg',
     null
     );
 INSERT INTO games (id, title, image_url, tags, party_limit)
@@ -55,14 +55,14 @@ VALUES(
 (
     '0be67bb2-4c4f-4046-961a-45f3ff94c32f',
     'CSGO',
-    'https://steamuserimages-a.akamaihd.net/ugc/3336341088177464117/8D53A0CBBA686F16DC97FD2722D4F6174D6897EB/',
+    'https://www.foxsportsasia.com/tachyon/2019/03/cs_go_header_valve.jpg?w=800',
     '{"Shooter", "FPS"}',
     6
 ),
 (
     'ce4c02e2-02fd-4f9e-9686-ecc9385eb1d5',
     'Rainbow 6 Siege',
-    'https://i.redd.it/iznunq2m8vgy.png',
+    'https://images7.alphacoders.com/521/521305.png',
     '{"Shooter", "FPS"}',
     6
 );
