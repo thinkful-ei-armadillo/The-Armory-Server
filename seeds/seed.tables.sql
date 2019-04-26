@@ -6,7 +6,7 @@ VALUES(
     'admin',
     'armorysquad@gmail.com',
     '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
-    'https://www.dropbox.com/s/x05f307un1oind2/IMG_3504%20copy.jpg?dl=0',
+    'https://i.ebayimg.com/images/g/PfAAAOSwA3dYIPRN/s-l300.jpg',
     null
     );
 INSERT INTO games (id, title, image_url, tags, party_limit)
