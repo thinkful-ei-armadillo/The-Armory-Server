@@ -20,7 +20,7 @@ app.use(cors());
 app.use('/api/user', userRouter);
 app.use('/api/games/', PartyRouter);
 app.use('/api/games', gamesRouter);
-app.use('/api/auth', authRouter)
+app.use('/api/auth', authRouter);
 
 app.use(function errorHandler(error, req, res, next) {
   let response;
