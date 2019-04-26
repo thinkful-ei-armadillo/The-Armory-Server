@@ -14,9 +14,9 @@ async function requireAuth(req, res, next) {
   try {
     const payload = AuthService.verifyJwt(bearerToken);
 
-    const user = await AuthService.getUserWithUserName(
+    const user = await AuthService.getUserWithEmail(
       req.app.get('db'),
-      payload.sub,
+      payload.email,
     );
 
     if (!user)
@@ -32,6 +32,25 @@ async function requireAuth(req, res, next) {
   }
 }
 
+async function requireSocketAuth(db, authToken) {
+  try {
+    const payload = AuthService.verifyJwt(authToken);
+    const user = await AuthService.getUserWithEmail(
+      db,
+      payload.email,
+    );
+    if (!user) {
+      return 'Unauthorized Requests';
+    }
+    return;
+  } catch (error) {
+    if (error instanceof JsonWebTokenError)
+      return 'Unauthorized request';
+    return error;
+  }
+}
+
 module.exports = {
   requireAuth,
+  requireSocketAuth
 };
