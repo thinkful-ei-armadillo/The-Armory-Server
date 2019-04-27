@@ -67,7 +67,7 @@ VALUES(
     6
 );
 
-INSERT INTO party (id, game_id, title, require_app, owner_id, description, filled)
+INSERT INTO party (id, game_id, title, require_app, owner_id, description, filled, ready)
 VALUES (
     'fb1d3c63-6a72-4013-be82-5b523c1dd1cd',
     'aa0e8ce9-1a71-42e7-804d-6838556fa6ed',
@@ -75,17 +75,16 @@ VALUES (
     true,
     1,
     'This is a description of this party.',
-    false
+    false,
+    true
 );
 
-INSERT INTO party_requirements (id, requirement_id, party_id)
+INSERT INTO party_requirements (requirement_id, party_id)
 VALUES(
-    1,
     9,
     'fb1d3c63-6a72-4013-be82-5b523c1dd1cd'
 ),
 (
-    2,
     1,
     'fb1d3c63-6a72-4013-be82-5b523c1dd1cd'
 );
@@ -100,20 +99,17 @@ VALUES(
     'fb1d3c63-6a72-4013-be82-5b523c1dd1cd',
     null
 );
-INSERT INTO spot_roles (id, spot_id, role_id)
+INSERT INTO spot_roles (spot_id, role_id)
 VALUES(
-    1,
     '64ed5ba8-78db-44c6-ae60-46e6a2a07ff9',
     14
 ),
 (
-    2,
     '64ed5ba8-78db-44c6-ae60-46e6a2a07ff9',
     2
 );
-INSERT INTO party_apps (id, user_id, party_id, spot_id, description)
+INSERT INTO party_apps (user_id, party_id, spot_id, description)
 VALUES(
-    1,
     1,
     'fb1d3c63-6a72-4013-be82-5b523c1dd1cd',
     '64ed5ba8-78db-44c6-ae60-46e6a2a07ff9',

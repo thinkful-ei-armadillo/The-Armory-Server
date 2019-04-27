@@ -49,7 +49,6 @@ gamesRouter.route("/:id").get(async (req, res, next) => {
 
     game.party_count = gameParty.party_count;
    
-    console.log(game);
     res.status(200).json(game);
   } catch (error) {
     next(error);

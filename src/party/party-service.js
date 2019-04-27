@@ -1,3 +1,7 @@
+const xss = require('xss');
+const Treeize = require('treeize');
+const UserService = require('../user/user-service');
+
 const PartyService = {
   getPartyById(db, partyId) {
     return db
@@ -30,6 +34,44 @@ const PartyService = {
         's.id'
       )
       .where('p.id', partyId);
+  },
+  serializeParty: async function(db, party_data) {
+    const tree = new Treeize().setOptions({ output: { prune: false }}); //prevents removal of 'null'
+
+    // Get user information for filled spots
+    party_data = await Promise.all(party_data.map(async party => {
+      if (party['spots:filled']) {
+        const { username, avatar_url } = await UserService.getUserInfo(db, party['spots:filled']); //Get this from Will
+
+        party['spots:filled'] = {
+          username,
+          avatar_url
+        };
+      }
+      return party;
+    }));
+
+    tree.grow(party_data);
+    return tree.getData();
+  },
+  insertParty(db, party) {
+    const newParty = {
+      game_id: party.game_id,
+      title: xss(party.title),
+      require_app: party.require_app,
+      owner_id: party.owner_id,
+      description: xss(party.description),
+    };
+    return db
+      .insert(newParty)
+      .into('party')
+      .returning('id')
+      .then(([party]) => party);
+  },
+  setReady(db, party_id) {
+    return db('party')
+      .where('id', party_id)
+      .update({ ready: true });
   }
 };
 
