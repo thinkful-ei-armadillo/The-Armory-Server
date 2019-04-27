@@ -10,7 +10,7 @@ PartyRouter
         req.app.get('db'),
         partyId
       );
-      res.json(PartyService.serializeParty(req.app.get('db'), party));
+      res.json(await PartyService.serializeParty(req.app.get('db'), party));
       next();
     } catch(error) {
       next(error);

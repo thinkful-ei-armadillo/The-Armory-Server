@@ -1,8 +1,7 @@
 BEGIN;
 TRUNCATE party, party_requirements, party_apps, spot_roles, spots, games, users;
-INSERT INTO users (id, username, email, password, avatar_url, not_verified)
+INSERT INTO users (username, email, password, avatar_url, not_verified)
 VALUES(
-    1,
     'admin',
     'armorysquad@gmail.com',
     '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
