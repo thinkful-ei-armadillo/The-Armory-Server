@@ -51,7 +51,8 @@ const GamesService = {
         's.id'
       )
       .where('p.game_id', gameId)
-      .andWhere('p.filled', false);
+      .andWhere('p.filled', false)
+      .andWhere('p.ready', true);
   },
 };
 

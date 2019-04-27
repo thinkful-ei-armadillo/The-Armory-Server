@@ -1,79 +1,63 @@
 const app = require('./app');
 const PartyService = require('../src/party/party-service');
+const SpotService = require('../src/spots/spot-service');
+const ReqService = require('../src/requirements/req-service');
 const { requireSocketAuth } = require('../src/middleware/jwt-auth');
 //io testing stuff
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
+const uuid = require('uuid/v4');
 
 io.on('connection', function(socket) {
   console.log('connected!');
 
-  socket.on('join game', function(game_id) {
-    socket.join(game_id);
-    console.log(game_id);
+  socket.on('join game', function(room_id) {
+    socket.join(room_id);
   });
 
-  socket.on('join party', function(party_id) {
-    socket.join(party_id);
+  socket.on('join party', function(room_id) {
+    socket.join(room_id);
   });
-
-
-  // const placeholderObject = {
-  //   party: {
-  //     game_id,
-  //     title,
-  //     owner_id,
-  //     description,
-  //     require_app,
-  //   },
-  //   spots: [
-  //     {
-  //       filled: 1,
-  //       roles: []
-  //     },
-  //   ],    
-  //   req: [ 
-  //   ],  
-  // }
 
   socket.on('post party', async function(msg){
     try {
-      //make sure user is authorized
-      const checkAuth = await requireSocketAuth(app.get('db'), msg.user_auth);
-      if (checkAuth) {
-        io.to(`${socket.id}`).emit('post party error', checkAuth);
-        return;
-      }
+      //make sure user is authorized, if they are, add the owner id to the party object
+      const userId = await requireSocketAuth(app.get('db'), msg.user_auth);
+      msg.party.owner_id = userId;
       //check for missing fields
-      if (!msg.party.game_id || !msg.party.title || !msg.party.owner_id) {
+      if (!msg.party.game_id || !msg.party.title) {
         io.to(`${socket.id}`).emit('post party error', 'Invalid party information provided');
         return;
       }
-      if (msg.spots.length < 2) {
+      //if there is less than one spot additional to the always required owner spot
+      if (msg.spots.length < 1) {
         io.to(`${socket.id}`).emit('post party error', 'Must have at least one spot available');
         return;
       }
       //please work
       const db = app.get('db');
       //inserts the party and grabs the ID
-      const { id } = await PartyService.insertParty(msg.party);
+      const partyId = await PartyService.insertParty(db, msg.party);
       //updates all spots and the roles associated with said spot
-      await Promise.all(
-        ...msg.spots.map(async (spot) => {
-          await SpotService.insertSpot(db, id, spot.roles, spot.filled); 
-        }),
-        ...msg.reqs.map(async (req_id) => {
-          await ReqService.insertReq(db, id, req_id);
+      await Promise.all([
+        await SpotService.insertSpot(db, partyId, [], userId), 
+        await ReqService.insertReq(db, partyId, msg.requirement),
+        ...msg.spots.map(async(spot) => {
+          return await SpotService.insertSpot(db, partyId, spot.roles, spot.filled)
         })
-      );
+      ]);
       //now that all requirements and spots are inserted, update DB so it knows party is publicly ready
-      await PartyService.setReady(db, id);
+      await PartyService.setReady(db, partyId);
       //grab the party details
-      const party = await PartyService.getPartyById(db, id)
+      const party = await PartyService.serializeParty(app.get('db'), await PartyService.getPartyById(db, partyId));
       //emit the party details to everyone in the room.
-      io.in(msg.room_id).emit('posted party', party);
+      io.sockets.in(msg.room_id).emit('posted party', party);
     } catch(err) {
-      console.log(err);
+      console.error(err);
+      if (err.message === "Unauthorized request") {
+        io.to(`${socket.id}`).emit('post party error', 'Unauthorized request');
+        return;
+      }
       io.to(`${socket.id}`).emit('post party error', 'Something went wrong, check the party information');
     }
   });

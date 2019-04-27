@@ -40,13 +40,11 @@ async function requireSocketAuth(db, authToken) {
       payload.email,
     );
     if (!user) {
-      return 'Unauthorized Requests';
+      throw new Error('Unauthorized Requests');
     }
-    return;
+    return user.id;
   } catch (error) {
-    if (error instanceof JsonWebTokenError)
-      return 'Unauthorized request';
-    return error;
+    throw new Error('Unauthorized request');
   }
 }
 
