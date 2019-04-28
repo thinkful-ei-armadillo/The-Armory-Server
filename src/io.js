@@ -64,10 +64,36 @@ io.on('connection', function(socket) {
 
   
 
-  socket.on('leave party', function(){
-    socket.leave(socket.room);
-    //dont think this is right as the client 
-    //never reaches this endpoint
+  socket.on('leave party', async function(msg){
+    const db = app.get('db');
+    const {party_id, user_auth, room_id, game_id} = msg;
+    try {
+      const user_id = await requireSocketAuth(db, user_auth);
+      const spot = await SpotService.updateSpots(db, party_id, {filled: user_id});
+      const owner_id = await PartyService.getOwnerId(db, party_id);
+      if(owner_id === user_id){
+        const newOwners = await SpotService.getNewOwnerId(db, owner_id, party_id);
+        if(newOwners.length < 1){
+          PartyService.deleteParty(db, party_id);
+          io.sockets.in(`/games/${game_id}`).emit('party deletion', party_id);
+        }
+        if(newOwners.id){
+          await PartyService.updateParty(db, party_id, {owner_id:newOwners.id});
+        }
+      }
+      const party = await PartyService.serializeParty(db, await PartyService.getPartyById(db, party_id))
+      io.sockets.in(room_id).emit('left party', party);
+      
+
+    } catch(err) {
+      console.error(err);
+      if (err.message === "Unauthorized request") {
+        io.to(`${socket.id}`).emit('post party error', 'Unauthorized request');
+        return;
+      }
+      io.to(`${socket.id}`).emit('post party error', 'Something went wrong, check the party information');
+    }
+  
   });
 
   //delete party
