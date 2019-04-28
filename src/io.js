@@ -62,6 +62,14 @@ io.on('connection', function(socket) {
     }
   });
 
+  
+
+  socket.on('leave party', function(){
+    socket.leave(socket.room);
+    //dont think this is right as the client 
+    //never reaches this endpoint
+  });
+
   //delete party
 
   socket.on('disconnect', function() {
