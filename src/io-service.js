@@ -105,6 +105,11 @@ const ioService = {
       socket.on('join room', function(room_id) {
         socket.join(room_id);
       });
+
+      socket.on('chat message', function(messageData){
+        console.log(messageData);
+        this.emitRoomEvent('update chat', messageData.room_id, messageData.message);
+      })
     
       socket.on('leave game', function() {
         console.log(socket.id);
