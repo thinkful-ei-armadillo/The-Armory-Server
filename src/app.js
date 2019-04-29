@@ -10,8 +10,20 @@ const userRouter = require('./user/user-router');
 const gamesRouter = require('./games/games-router');
 const PartyRouter = require('./party/party-router');
 const authRouter = require('./auth/auth-router');
+const SpotRouter = require('./spots/spot-router');
 
 const morganOption = NODE_ENV === 'production' ? 'tiny' : 'common';
+
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+
+const ioService = require('./io-service');
+
+function getIo() {
+  return io;
+}
+
+ioService.setUpIo(io);
 
 app.use(morgan(morganOption));
 app.use(helmet());
@@ -21,6 +33,7 @@ app.use('/api/user', userRouter);
 app.use('/api/parties', PartyRouter);
 app.use('/api/games', gamesRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/spot', SpotRouter);
 
 app.use(function errorHandler(error, req, res, next) {
   let response;
@@ -33,4 +46,8 @@ app.use(function errorHandler(error, req, res, next) {
   res.status(500).json(response);
 });
 
-module.exports = app;
+module.exports = {
+  server,
+  app,
+  getIo
+};

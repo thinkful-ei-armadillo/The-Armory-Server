@@ -2,9 +2,9 @@
 require('dotenv').config();
 
 const knex = require('knex');
-const app = require('./app');
 const { PORT, DB_URL } = require('./config');
-const server = require('./io');
+const { server, app } = require('./app');
+const ioService = require('./io-service');
 
 const db = knex({
   client: 'pg',
@@ -12,6 +12,7 @@ const db = knex({
 });
 
 app.set('db', db);
+ioService.setApp(app);
 
 server.listen(PORT, () => {
   console.log(`Server listening at http://localhost:${PORT}`);

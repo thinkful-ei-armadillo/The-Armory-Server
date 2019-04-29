@@ -54,6 +54,9 @@ const GamesService = {
       .andWhere('p.filled', false)
       .andWhere('p.ready', true);
   },
+
+
+
 };
 
 module.exports = GamesService;
