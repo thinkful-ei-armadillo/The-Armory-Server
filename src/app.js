@@ -13,6 +13,17 @@ const authRouter = require('./auth/auth-router');
 
 const morganOption = NODE_ENV === 'production' ? 'tiny' : 'common';
 
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+
+const ioService = require('./io-service');
+
+function getIo() {
+  return io;
+}
+
+ioService.setUpIo(io);
+
 app.use(morgan(morganOption));
 app.use(helmet());
 app.use(cors());
@@ -33,4 +44,8 @@ app.use(function errorHandler(error, req, res, next) {
   res.status(500).json(response);
 });
 
-module.exports = app;
+module.exports = {
+  server,
+  app,
+  getIo
+};

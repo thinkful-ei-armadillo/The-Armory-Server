@@ -2,9 +2,8 @@
 require('dotenv').config();
 
 const knex = require('knex');
-const app = require('./app');
 const { PORT, DB_URL } = require('./config');
-const server = require('./io');
+const { server, app } = require('./app');
 
 const db = knex({
   client: 'pg',

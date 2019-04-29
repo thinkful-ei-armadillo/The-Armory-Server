@@ -68,6 +68,12 @@ const PartyService = {
       .returning('id')
       .then(([party]) => party);
   },
+  deleteParty(db, partyId) {
+    return db
+      .from('party')
+      .where('id', partyId)
+      .del();
+  },
   setReady(db, party_id) {
     return db('party')
       .where('id', party_id)
