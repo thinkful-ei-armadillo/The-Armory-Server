@@ -39,6 +39,14 @@ const SpotService = {
       .whereNot('filled', null)
       .whereNot('filled', owner_id)
       .andWhere({party_id});
+  },
+  findUserSpot(db, user_id, party_id){
+    return db 
+      .select('id')
+      .from('spots')
+      .where('filled', user_id)
+      .andWhere({party_id})
+      .first();
   }
 };
 
