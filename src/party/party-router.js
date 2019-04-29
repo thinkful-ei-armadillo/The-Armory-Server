@@ -7,6 +7,9 @@ const ReqService = require('../requirements/req-service');
 const {requireAuth} = require('../middleware/jwt-auth');
 const bodyParser = express.json();
 
+const REQUIREMENT_STORE = require('../store/requirements');
+const ROLES_STORE = require('../store/roles');
+
 const ioService = require('../io-service');
 
 PartyRouter
@@ -36,15 +39,13 @@ PartyRouter
       ]);
       //now that all requirements and spots are inserted, update DB so it knows party is publicly ready
       await PartyService.setReady(db, partyId);
-      //grab the party details
-      const createdParty = await PartyService.serializeParty(db, await PartyService.getPartyById(db, partyId));
-      //emit the party details to everyone in the room, including the sender
+      //emit a message telling clients to re-request their data
       res
         .status(201)
-        .location(path.posix.join(req.originalUrl, `/${party.id}`))
-        .json(createdParty);
+        .location(path.posix.join(req.originalUrl, `/${partyId}`))
+        .json({ id: partyId });
 
-      ioService.emitRoomEvent('posted party', room_id, createdParty);
+      ioService.emitRoomEvent('update parties', room_id);
       next();
     } catch(err) {
       //if there was an error but SOME of the stuff was inserted, need to delete to prevent it staying forever, deleting party cascades
@@ -57,41 +58,36 @@ PartyRouter
   });
 
 PartyRouter
-  .route('/:partyId')
-  .get(async (req, res, next) => {
+  .get("/:partyId", async (req, res, next) => {
     const { partyId } = req.params;
     try {
-      let party = await PartyService.getPartyById(
-        req.app.get('db'),
-        partyId
+      let party = await PartyService.getPartyById(req.app.get("db"), partyId);
+      const [partyResponse] = await PartyService.serializeParty(
+        req.app.get("db"),
+        party
       );
-      res.json(await PartyService.serializeParty(req.app.get('db'), party));
+  
+      partyResponse.reqs = partyResponse.reqs.map(req => {
+        return {
+          req_name: REQUIREMENT_STORE[partyResponse.game_id][req.id]
+        };
+      });
+      partyResponse.spots = partyResponse.spots.map(spot => {
+        return {
+          ...spot,
+          roles: spot.roles.map(role => {
+            return {
+              role_name: ROLES_STORE[partyResponse.game_id][role.id] || null
+            };
+          })
+        };
+      });
+      res.json(partyResponse);
       next();
-    } catch(error) {
+    } catch (error) {
       next(error);
     }
   });
-
-    partyResponse.reqs = partyResponse.reqs.map(req => {
-      return {
-        req_name: REQUIREMENT_STORE[partyResponse.game_id][req.id]
-      };
-    });
-    partyResponse.spots = partyResponse.spots.map(spot => {
-      return {
-        ...spot,
-        roles: spot.roles.map(role => {
-          return {
-            role_name: ROLES_STORE[partyResponse.game_id][role.id] || null
-          };
-        })
-      };
-    });
-    res.json(partyResponse);
-    next();
-  } catch (error) {
-    next(error);
-  }
-});
+  
 
 module.exports = PartyRouter;

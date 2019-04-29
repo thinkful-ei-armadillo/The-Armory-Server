@@ -35,6 +35,13 @@ const PartyService = {
       )
       .where('p.id', partyId);
   },
+  getSimplePartyById: async function(db, partyId) {
+    const data = await db
+      .raw(`select p.*, 
+        (select count(*) filter (where filled is null) as spots_left from spots where spots.party_id='${partyId}') 
+        from party as p where p.id = '${partyId}'`);
+    return data.rows[0];
+  },
   serializeParty: async function(db, party_data) {
     const tree = new Treeize().setOptions({ output: { prune: false }}); //prevents removal of 'null'
 
@@ -91,10 +98,7 @@ const PartyService = {
   updateParty(db, party_id, newParty){
     return db('party')
       .where('id', party_id)
-      .update(newParty)
-      .returning('id')
-      .then(([party]) => party)
-      .then(party => this.getPartyById('db', party.id));
+      .update(newParty);
   }
 
 };

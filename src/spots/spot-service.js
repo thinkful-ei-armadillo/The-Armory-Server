@@ -19,25 +19,19 @@ const SpotService = {
       })
     );
   },
-
-  updateSpots(db, party_id, newSpot) {
+  updateSpot(db, spot_id, newSpot) {
     return db('spots')
-      .where({ party_id })
-      .andWhere('filled', newSpot.filled)
-      .update(newSpot)
-      .returning('id')
-      .then(([spot]) => spot)
-      .then(spot => this.getSpotById('db', spot.id));
+      .where('id', spot_id)
+      .update(newSpot);
   }, 
-
   getSpotById(db, id){
+    console.log('huh?', id);
     return db
       .select('*')
       .from('spots')
       .where({id})
       .first();
   }, 
-
   getNewOwnerId(db, owner_id, party_id){
     return db
       .select('filled')
@@ -46,7 +40,6 @@ const SpotService = {
       .whereNot('filled', owner_id)
       .andWhere({party_id});
   }
-
 };
 
 module.exports = SpotService;
