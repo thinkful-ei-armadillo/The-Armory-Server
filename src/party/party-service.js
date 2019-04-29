@@ -78,7 +78,25 @@ const PartyService = {
     return db('party')
       .where('id', party_id)
       .update({ ready: true });
+  }, 
+
+  getOwnerId(db, party_id){
+    return db
+      .from('party')
+      .where('id', party_id)
+      .select('owner_id')
+      .first();
+  },
+
+  updateParty(db, party_id, newParty){
+    return db('party')
+      .where('id', party_id)
+      .update(newParty)
+      .returning('id')
+      .then(([party]) => party)
+      .then(party => this.getPartyById('db', party.id));
   }
+
 };
 
 module.exports = PartyService;
