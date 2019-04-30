@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const UserService = require('./user-service');
 const { requireAuth } = require('../middleware/jwt-auth');
+const { mailer } = require('../nodemailer/nodemailer');
 
 const userRouter = express.Router();
 const bodyParser = express.json();
@@ -42,6 +43,7 @@ userRouter.post('/', bodyParser, async (req, res, next) => {
       avatar_url: ''
     };
     const user = await UserService.insertUser(req.app.get('db'), newUser);
+    await mailer(user);
     res
       .status(201)
       .location(path.posix.join(req.originalUrl, `/${user.id}`))
