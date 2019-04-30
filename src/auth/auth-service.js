@@ -13,6 +13,7 @@ const AuthService = {
   getUserWithEmail(db, email) {
     return db('users')
       .where({ email })
+      .orWhere('username', email)
       .first();
   },
   comparePasswords(password, hash) {
