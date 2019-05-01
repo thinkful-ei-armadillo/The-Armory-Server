@@ -123,8 +123,13 @@ const ioService = {
 
       socket.on("chat message", function(messageData) {
         const roomId = messageData.room_id;
-        messageData.message_id = uuid();
-        io.sockets.in(roomId).emit("update chat", messageData);
+        if(messageData.message_id){
+          console.log(messageData);
+          io.sockets.in(roomId).emit("update chat", messageData);
+        } else {
+          messageData.message_id = uuid();
+          io.sockets.in(roomId).emit("update chat", messageData);
+        }
       });
 
       socket.on("leave game", function() {
