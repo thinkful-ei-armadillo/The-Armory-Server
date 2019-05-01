@@ -22,10 +22,9 @@ authRouter
         req.app.get('db'),
         loginUser.email
       )
-
       if (!dbUser)
         return res.status(400).json({
-          error: 'Incorrect email or password',
+          error: 'Incorrect email, username, or password',
         })
 
       const compareMatch = await AuthService.comparePasswords(
