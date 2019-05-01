@@ -25,7 +25,7 @@ function mailer(user) {
       from: 'armorysquad@gmail.com',
       to: user.email,
       subject: 'SquadArmory email confirmation',
-      html: `It finally works, thanks for signing up. You have no friends... Please click this link to confirm your email: <a href="${url}">${url}</a>`,
+      html: `<p>Thank you for joining Squad Armory. Please click the link below to confirm your email. Happy gaming!</p> <a href="${url}">Click here to verify your account</a>`,
     };
     
 
