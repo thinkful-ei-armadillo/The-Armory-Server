@@ -14,8 +14,9 @@ const SpotRouter = require('./spots/spot-router');
 
 const morganOption = NODE_ENV === 'production' ? 'tiny' : 'common';
 
+const config = {pingTimeout: 60000};
 const server = require('http').Server(app);
-const io = require('socket.io')(server);
+const io = require('socket.io')(server, config);
 
 const ioService = require('./io-service');
 
