@@ -12,8 +12,24 @@ const ROLES_STORE = require("../store/requirements");
 gamesRouter.get("/", async (req, res, next) => {
   try {
     let url_parts = url.parse(req.url, true);
-    // console.log('url_parts =', url_parts)
     let query = url_parts.query;
+    const games = await GamesService.getAllGames(req.app.get("db"));
+    const partyCount = await GamesService.getPartyCount(req.app.get("db"));
+    const array = [];
+
+    games.map(game => {
+      const match = partyCount.find(item => item.id === game.id);
+      game.party_count = match.party_count;
+
+      const gameRoles = ROLES_STORE[game.id];
+      const gameRequirements = REQUIREMENTS_STORE[game.id];
+      game.roles = gameRoles;
+      game.requirements = gameRequirements;
+
+      array.push(game);
+    });
+
+    console.log('line 33 games =', games)
 
     if (Object.keys(query).length > 0) {
       console.log('query.query =', query.query);
@@ -26,57 +42,12 @@ gamesRouter.get("/", async (req, res, next) => {
         })
         .catch(next);
     } else {
-      GamesService.getAllGames(req.app.get("db"))
-        .then(games => {
-          res.status(200).json(games);
-        })
-        .catch(next);
+      console.log('line 45 =', games)
+      res.status(200).json(games);
     }
-  } catch (error) {
+  } catch(error) {
     next(error);
   }
-  // http://localhost:8000/api/games/?query=Overwatch
-  // const gamesByTitle = await GamesService.getGameByTitle(
-  //   req.app.get("db"),
-  //   search.query
-  // );
-  // const games = await GamesService.getAllGames(req.app.get("db"));
-  // const partyCount = await GamesService.getPartyCount(req.app.get("db"));
-  // const array = [];
-
-  // console.log('search.query', search.query)
-  // GamesService.getGameByTitle(req.app.get("db"), search.query).then(games => {
-  //   console.log(res.json(games));
-  //   res.json(games);
-  // }).catch(next);
-
-  // if (!req.query) {
-  //   games.map(game => {
-  //     const match = partyCount.find(item => item.id === game.id);
-  //     game.party_count = match.party_count;
-
-  //     const gameRoles = ROLES_STORE[game.id];
-  //     const gameRequirements = REQUIREMENTS_STORE[game.id];
-  //     game.roles = gameRoles;
-  //     game.requirements = gameRequirements;
-
-  //     array.push(game);
-  //   });
-  // } else {
-  //   if (req.query) {
-  //     gamesByTitle.map(game => {
-  //       const match = partyCount.find(item => item.id === game.id);
-  //       game.party_count = match.party_count;
-
-  //       const gameRoles = ROLES_STORE[game.id];
-  //       const gameRequirements = REQUIREMENTS_STORE[game.id];
-  //       game.roles = gameRoles;
-  //       game.requirements = gameRequirements;
-
-  //       array.push(game);
-  //     });
-  //   }
-  //   res.status(200).json(games);
 });
 
 gamesRouter.route("/:id").get(async (req, res, next) => {
