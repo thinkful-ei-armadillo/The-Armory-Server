@@ -29,23 +29,33 @@ gamesRouter.get("/", async (req, res, next) => {
       array.push(game);
     });
 
-    console.log('line 33 games =', games)
-
     if (Object.keys(query).length > 0) {
-      console.log('query.query =', query.query);
+      console.log("query.query =", query.query);
       if (query.query === undefined) {
         query.query = "";
       }
-      GamesService.searchTitleQuery(req.app.get("db"), query.query.split(" "))
-        .then(games => {
-          res.status(200).json(games);
-        })
-        .catch(next);
+      const newGames = await GamesService.searchTitleQuery(
+        req.app.get("db"),
+        query.query.split(" ")
+      );
+      console.log("QUERY.QUERY.SPLIT", query.query.split(" "));
+      console.log("newGames", newGames);
+      newGames.map(game => {
+        const match = partyCount.find(item => item.id === game.id);
+        game.party_count = match.party_count;
+
+        const gameRoles = ROLES_STORE[game.id];
+        const gameRequirements = REQUIREMENTS_STORE[game.id];
+        game.roles = gameRoles;
+        game.requirements = gameRequirements;
+        array.push(game);
+      });
+      console.log("NEWGAMES ===", newGames);
+      res.status(200).json(newGames);
     } else {
-      console.log('line 45 =', games)
       res.status(200).json(games);
     }
-  } catch(error) {
+  } catch (error) {
     next(error);
   }
 });

@@ -61,7 +61,7 @@ const GamesService = {
       .select('*')
       .from('games')
       .whereRaw(
-        `LOWER(title) similar to '%(${query.join('|').toLowerCase()})%'`
+        `LOWER(title) similar to '%(${query.join('').toLowerCase()})%'`
       );
   },
 };
