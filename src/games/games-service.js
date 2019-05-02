@@ -1,3 +1,4 @@
+/* eslint-disable strict */
 const GamesService = {
   getAllGames(db) {
     return db
@@ -54,9 +55,15 @@ const GamesService = {
       .andWhere('p.filled', false)
       .andWhere('p.ready', true);
   },
-
-
-
+  // service for dashboard search
+  searchTitleQuery(db, query) {
+    return db
+      .select('*')
+      .from('games')
+      .whereRaw(
+        `LOWER(title) similar to '%(${query.join('|').toLowerCase()})%'`
+      );
+  },
 };
 
 module.exports = GamesService;
