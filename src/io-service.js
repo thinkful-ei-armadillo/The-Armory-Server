@@ -4,6 +4,7 @@ const { requireSocketAuth } = require("./middleware/jwt-auth");
 const SpotService = require("./spots/spot-service");
 const PartyService = require("./party/party-service");
 const uuid = require("uuid");
+const xss = require('xss');
 
 const ioService = {
   setUpIo(ioInstance) {
@@ -126,6 +127,13 @@ const ioService = {
         if(messageData.message_id){
           io.sockets.in(roomId).emit("update chat", messageData);
         } else {
+          messageData = {
+            room_id: xss(messageData.room_id),
+            message: xss(messageData.message),
+            user_id: messageData.user_id,
+            sub: messageData.sub,
+            timeStamp: messageData.timeStamp
+          }
           messageData.message_id = uuid();
           io.sockets.in(roomId).emit("update chat", messageData);
         }
