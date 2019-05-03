@@ -99,9 +99,12 @@ const ioService = {
         }
       });
 
-      socket.on("delete chat message", function(messageData) {
-        console.log(messageData);
-        io.sockets.in(messageData.room_id).emit("delete chat message", messageData.message_id);
+      socket.on("delete chat message", async function(messageData) {
+        const updatedMessages = await PartyService.deleteChatMessage(app.get('db'), messageData.id)
+        const messages = await PartyService.getPartyMessages(app.get('db'), messageData.party_id);
+        console.log(messageData.room_id);
+        // need partyId
+        io.sockets.in(messageData.room_id).emit("delete chat message", messages);
       })
 
       socket.on("leave game", function() {

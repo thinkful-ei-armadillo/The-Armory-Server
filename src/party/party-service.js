@@ -120,6 +120,11 @@ const PartyService = {
     return db('party_messages')
       .where('id', id)
       .update(newMessage);
+  },
+  deleteChatMessage(db, id){
+    return db('party_messages')
+      .where('id', id)
+      .del();
   }
 };
 
