@@ -78,43 +78,48 @@ const ioService = {
       });
 
       socket.on("chat message", async function(messageData) {
+
         const roomId = messageData.room_id;
-        if(messageData.id){
-          const newMessage = {
-            message_body: messageData.message,
-          }
-          const party_id = roomId.split('/').splice(2, 1).join('');
-          messageData = {
-            id: messageData.id,
-            party_id,
-            message_body: xss(messageData.message),
-            owner_id: messageData.user_id,
-            time_created: messageData.timeStamp
-          }
-          await PartyService.updateChatMessage(app.get('db'), messageData.id, newMessage)
-          await PartyService.insertIntoArchive(app.get('db'), messageData);
-          const updatedMessages = await PartyService.getPartyMessages(app.get('db'), party_id)
-          io.sockets.in(roomId).emit("update chat", updatedMessages);
-        } else {
-          const party_id = roomId.split('/').splice(2, 1).join('');
+        const party_id = roomId.split('/').splice(2, 1).join('');
           messageData = {
             party_id,
             message_body: xss(messageData.message),
             owner_id: messageData.user_id,
-            time_created: messageData.timeStamp
+            time_created: messageData.timeStamp,
+            unix_stamp: messageData.unix_stamp
           }
           await PartyService.insertMessage(app.get("db"), messageData);
           await PartyService.insertIntoArchive(app.get('db'), messageData);
           const messages = await PartyService.getPartyMessages(app.get('db'), party_id);
           io.sockets.in(roomId).emit("update chat", messages);
-        }
+        
       });
 
+      socket.on("edit chat message", async function(messageData){
+        const roomId = messageData.room_id;
+        const party_id = roomId.split('/').splice(2, 1).join('');
+        const newMessage = {
+          message_body: messageData.message,
+          edited: true,
+        }
+        await PartyService.updateChatMessage(app.get('db'), messageData.id, newMessage)
+
+        messageData = {
+          party_id,
+          message_body: xss(messageData.message),
+          owner_id: messageData.user_id,
+          time_created: messageData.timeStamp,
+          unix_stamp: messageData.unix_stamp,
+        }
+        await PartyService.insertIntoArchive(app.get('db'), messageData);
+        const updatedMessages = await PartyService.getPartyMessages(app.get('db'), party_id)
+        io.sockets.in(roomId).emit("update chat", updatedMessages);
+      })
+
       socket.on("delete chat message", async function(messageData) {
-        const updatedMessages = await PartyService.deleteChatMessage(app.get('db'), messageData.id)
+        await PartyService.deleteChatMessage(app.get('db'), messageData.id)
         const messages = await PartyService.getPartyMessages(app.get('db'), messageData.party_id);
         console.log(messageData.room_id);
-        // need partyId
         io.sockets.in(messageData.room_id).emit("delete chat message", messages);
       })
 

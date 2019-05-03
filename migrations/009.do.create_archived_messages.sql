@@ -3,5 +3,6 @@ CREATE TABLE archived_messages(
     party_id uuid NOT NULL,
     owner_id INT NOT NULL,
     message_body TEXT NOT NULL,
-    time_created TEXT NOT NULL
+    time_created TEXT NOT NULL,
+    unix_stamp BIGSERIAL NOT NULL
 );

@@ -107,6 +107,7 @@ const PartyService = {
         "pm.party_id",
         "pm.message_body",
         "pm.time_created",
+        "pm.edited",
         "u.id AS user_id",
         "u.username",
         "u.email",
@@ -114,7 +115,7 @@ const PartyService = {
         )
         .leftJoin("users AS u", "u.id", "pm.owner_id")
         .where("pm.party_id", partyId)
-        .orderBy('time_created', 'asc');
+        .orderBy('unix_stamp', 'asc');
   },
   updateChatMessage(db, id, newMessage){
     return db('party_messages')
