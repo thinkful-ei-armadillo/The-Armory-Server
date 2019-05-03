@@ -70,72 +70,27 @@ const ioService = {
           );
         }
       });
-      // socket.on('post party', async function(msg){
-      //   let partyId;
-      //   try {
-      //     //make sure user is authorized, if they are, add the owner id to the party object
-      //     const userId = await requireSocketAuth(app.get('db'), msg.user_auth);
-      //     msg.party.owner_id = userId;
-      //     //check for missing fields
-      //     if (!msg.party.game_id || !msg.party.title) {
-      //       io.to(`${socket.id}`).emit('post party error', 'Invalid party information provided');
-      //       return;
-      //     }
-      //     //if there is less than one spot additional to the always required owner spot
-      //     if (msg.spots.length < 1) {
-      //       io.to(`${socket.id}`).emit('post party error', 'Must have at least one spot available');
-      //       return;
-      //     }
-      //     //please work
-      //     const db = app.get('db');
-      //     //inserts the party and grabs the ID
-      //     partyId = await PartyService.insertParty(db, msg.party);
-      //     //updates all spots and the roles associated with said spot
-      //     await Promise.all([
-      //       await SpotService.insertSpot(db, partyId, [], userId),
-      //       await ReqService.insertReq(db, partyId, msg.requirement),
-      //       ...msg.spots.map(async(spot) => {
-      //         return await SpotService.insertSpot(db, partyId, spot.roles, spot.filled)
-      //       })
-      //     ]);
-      //     //now that all requirements and spots are inserted, update DB so it knows party is publicly ready
-      //     await PartyService.setReady(db, partyId);
-      //     //grab the party details
-      //     const party = await PartyService.serializeParty(db, await PartyService.getPartyById(db, partyId));
-      //     //emit the party details to everyone in the room.
-      //     io.sockets.in(msg.room_id).emit('posted party', party);
-      //   } catch(err) {
-      //     console.error(err);
-      //     //if there was an error but SOME of the stuff was inserted, need to delete to prevent it staying forever, deleting party cascades
-      //     if (partyId) {
-      //       await PartyService.deleteParty(db, partyId);
-      //     }
-      //     if (err.message === "Unauthorized request") {
-      //       io.to(`${socket.id}`).emit('post party error', 'Unauthorized request');
-      //       return;
-      //     }
-      //     io.to(`${socket.id}`).emit('post party error', 'Something went wrong, check the party information');
-      //   }
-      // });
 
       socket.on("join room", function(room_id) {
         socket.join(room_id);
       });
 
-      socket.on("chat message", function(messageData) {
+      socket.on("chat message", async function(messageData) {
         const roomId = messageData.room_id;
         if(messageData.message_id){
           io.sockets.in(roomId).emit("update chat", messageData);
         } else {
+          const party_id = roomId.split('/').splice(2, 1).join('');
           messageData = {
-            room_id: xss(messageData.room_id),
-            message: xss(messageData.message),
-            user_id: messageData.user_id,
-            sub: messageData.sub,
-            timeStamp: messageData.timeStamp
+            party_id,
+            message_body: xss(messageData.message),
+            owner_id: messageData.user_id,
+            time_created: messageData.timeStamp
           }
-          messageData.message_id = uuid();
-          io.sockets.in(roomId).emit("update chat", messageData);
+          const newMessage = await PartyService.insertMessage(app.get("db"), messageData);
+          const messages = await PartyService.getPartyMessages(app.get('db'), party_id);
+          console.log(messages);
+          io.sockets.in(roomId).emit("update chat", messages.reverse());
         }
       });
 
