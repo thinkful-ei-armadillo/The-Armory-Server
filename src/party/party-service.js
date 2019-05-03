@@ -96,7 +96,7 @@ const PartyService = {
     return db
       .insert(message)
       .into("party_messages")
-      .returning("message_id")
+      .returning("id")
       .then(([message]) => message);
   },
   getPartyMessages(db, partyId) {
@@ -124,6 +124,18 @@ const PartyService = {
   deleteChatMessage(db, id){
     return db('party_messages')
       .where('id', id)
+      .del();
+  }, 
+  insertIntoArchive(db, message){
+    return db
+      .insert(message)
+      .into('archived_messages')
+      .returning("id")
+      .then(([message]) => message);
+  },
+  deletePartyChatLogs(db, partyId){
+    return db('party_messages')
+      .where('party_id', partyId)
       .del();
   }
 };

@@ -1,5 +1,5 @@
 BEGIN;
-TRUNCATE party_messages, party, party_requirements, party_apps, spot_roles, spots, games, users;
+TRUNCATE archived_messages, party_messages, party, party_requirements, party_apps, spot_roles, spots, games, users;
 INSERT INTO users (username, email, password, avatar_url, not_verified)
 VALUES(
     'admin',
@@ -113,13 +113,5 @@ VALUES(
     'fb1d3c63-6a72-4013-be82-5b523c1dd1cd',
     '64ed5ba8-78db-44c6-ae60-46e6a2a07ff9',
     'I need healing!'
-);
-INSERT INTO party_messages (party_id, owner_id, message_id, message_body, time_created)
-VALUES(
-    'fb1d3c63-6a72-4013-be82-5b523c1dd1cd',
-    1,
-    'c5e612cb-100d-4bff-8032-738681177165',
-    'hey is this chat working?',
-    '1:08 PM'
 );
 COMMIT;

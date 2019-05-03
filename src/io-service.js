@@ -36,6 +36,8 @@ const ioService = {
 
             if (newOwners.length < 1) {
               await PartyService.deleteParty(db, party_id);
+              // delete all chat messages from party
+              // await PartyService.deletePartyChatLogs(db, party_id)
               io.sockets
                 .in(`/games/${game_id}`)
                 .emit("update parties", party_id);
@@ -82,7 +84,15 @@ const ioService = {
             message_body: messageData.message,
           }
           const party_id = roomId.split('/').splice(2, 1).join('');
-          const update = await PartyService.updateChatMessage(app.get('db'), messageData.id, newMessage)
+          messageData = {
+            id: messageData.id,
+            party_id,
+            message_body: xss(messageData.message),
+            owner_id: messageData.user_id,
+            time_created: messageData.timeStamp
+          }
+          await PartyService.updateChatMessage(app.get('db'), messageData.id, newMessage)
+          await PartyService.insertIntoArchive(app.get('db'), messageData);
           const updatedMessages = await PartyService.getPartyMessages(app.get('db'), party_id)
           io.sockets.in(roomId).emit("update chat", updatedMessages);
         } else {
@@ -93,7 +103,8 @@ const ioService = {
             owner_id: messageData.user_id,
             time_created: messageData.timeStamp
           }
-          const newMessage = await PartyService.insertMessage(app.get("db"), messageData);
+          await PartyService.insertMessage(app.get("db"), messageData);
+          await PartyService.insertIntoArchive(app.get('db'), messageData);
           const messages = await PartyService.getPartyMessages(app.get('db'), party_id);
           io.sockets.in(roomId).emit("update chat", messages);
         }
