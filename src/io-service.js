@@ -77,8 +77,14 @@ const ioService = {
 
       socket.on("chat message", async function(messageData) {
         const roomId = messageData.room_id;
-        if(messageData.message_id){
-          io.sockets.in(roomId).emit("update chat", messageData);
+        if(messageData.id){
+          const newMessage = {
+            message_body: messageData.message,
+          }
+          const party_id = roomId.split('/').splice(2, 1).join('');
+          const update = await PartyService.updateChatMessage(app.get('db'), messageData.id, newMessage)
+          const updatedMessages = await PartyService.getPartyMessages(app.get('db'), party_id)
+          io.sockets.in(roomId).emit("update chat", updatedMessages);
         } else {
           const party_id = roomId.split('/').splice(2, 1).join('');
           messageData = {
@@ -89,8 +95,7 @@ const ioService = {
           }
           const newMessage = await PartyService.insertMessage(app.get("db"), messageData);
           const messages = await PartyService.getPartyMessages(app.get('db'), party_id);
-          console.log(messages);
-          io.sockets.in(roomId).emit("update chat", messages.reverse());
+          io.sockets.in(roomId).emit("update chat", messages);
         }
       });
 

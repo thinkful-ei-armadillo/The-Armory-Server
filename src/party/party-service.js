@@ -113,7 +113,13 @@ const PartyService = {
         "u.avatar_url"
         )
         .leftJoin("users AS u", "u.id", "pm.owner_id")
-        .where("pm.party_id", partyId);
+        .where("pm.party_id", partyId)
+        .orderBy('time_created', 'asc');
+  },
+  updateChatMessage(db, id, newMessage){
+    return db('party_messages')
+      .where('id', id)
+      .update(newMessage);
   }
 };
 
