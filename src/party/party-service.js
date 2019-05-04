@@ -1,62 +1,54 @@
-const xss = require('xss');
-const Treeize = require('treeize');
-const UserService = require('../user/user-service');
+const xss = require("xss");
+const Treeize = require("treeize");
+const UserService = require("../user/user-service");
 
 const PartyService = {
   getPartyById(db, partyId) {
     return db
-      .from('party AS p')
+      .from("party AS p")
       .select(
-        'p.id',
-        'p.game_id',
-        'p.title',
-        'p.owner_id',
-        'p.description',
-        'p.require_app',
-        'pr.requirement_id AS reqs:id',
-        's.id AS spots:id',
-        's.filled AS spots:filled',
-        'sr.role_id AS spots:roles:id'
+        "p.id",
+        "p.game_id",
+        "p.title",
+        "p.owner_id",
+        "p.description",
+        "p.require_app",
+        "pr.requirement_id AS reqs:id",
+        "s.id AS spots:id",
+        "s.filled AS spots:filled",
+        "sr.role_id AS spots:roles:id"
       )
-      .leftJoin(
-        'spots AS s',
-        'p.id',
-        's.party_id'
-      )
-      .leftJoin(
-        'party_requirements AS pr',
-        'pr.party_id',
-        'p.id'
-      )
-      .leftJoin(
-        'spot_roles AS sr',
-        'sr.spot_id',
-        's.id'
-      )
-      .where('p.id', partyId);
+      .leftJoin("spots AS s", "p.id", "s.party_id")
+      .leftJoin("party_requirements AS pr", "pr.party_id", "p.id")
+      .leftJoin("spot_roles AS sr", "sr.spot_id", "s.id")
+      .where("p.id", partyId);
   },
   getSimplePartyById: async function(db, partyId) {
-    const data = await db
-      .raw(`select p.*, 
+    const data = await db.raw(`select p.*, 
         (select count(*) filter (where filled is null) as spots_left from spots where spots.party_id='${partyId}') 
         from party as p where p.id = '${partyId}'`);
     return data.rows[0];
   },
   serializeParty: async function(db, party_data) {
-    const tree = new Treeize().setOptions({ output: { prune: false }}); //prevents removal of 'null'
+    const tree = new Treeize().setOptions({ output: { prune: false } }); //prevents removal of 'null'
 
     // Get user information for filled spots
-    party_data = await Promise.all(party_data.map(async party => {
-      if (party['spots:filled']) {
-        const { username, avatar_url } = await UserService.getUserInfo(db, party['spots:filled']); //Get this from Will
+    party_data = await Promise.all(
+      party_data.map(async party => {
+        if (party["spots:filled"]) {
+          const { username, avatar_url } = await UserService.getUserInfo(
+            db,
+            party["spots:filled"]
+          ); //Get this from Will
 
-        party['spots:filled'] = {
-          username,
-          avatar_url
-        };
-      }
-      return party;
-    }));
+          party["spots:filled"] = {
+            username,
+            avatar_url
+          };
+        }
+        return party;
+      })
+    );
 
     tree.grow(party_data);
     return tree.getData();
@@ -67,40 +59,86 @@ const PartyService = {
       title: xss(party.title),
       require_app: party.require_app,
       owner_id: party.owner_id,
-      description: xss(party.description),
+      description: xss(party.description)
     };
     return db
       .insert(newParty)
-      .into('party')
-      .returning('id')
+      .into("party")
+      .returning("id")
       .then(([party]) => party);
   },
   deleteParty(db, partyId) {
     return db
-      .from('party')
-      .where('id', partyId)
+      .from("party")
+      .where("id", partyId)
       .del();
   },
   setReady(db, party_id) {
-    return db('party')
-      .where('id', party_id)
+    return db("party")
+      .where("id", party_id)
       .update({ ready: true });
-  }, 
+  },
 
-  getOwnerId(db, party_id){
+  getOwnerId(db, party_id) {
     return db
-      .from('party')
-      .where('id', party_id)
-      .select('owner_id')
+      .from("party")
+      .where("id", party_id)
+      .select("owner_id")
       .first();
   },
 
-  updateParty(db, party_id, newParty){
-    return db('party')
-      .where('id', party_id)
+  updateParty(db, party_id, newParty) {
+    return db("party")
+      .where("id", party_id)
       .update(newParty);
+  },
+  insertMessage(db, message) {
+    return db
+      .insert(message)
+      .into("party_messages")
+      .returning("id")
+      .then(([message]) => message);
+  },
+  getPartyMessages(db, partyId) {
+    return db
+      .from("party_messages AS pm")
+      .select(
+        "pm.id",
+        "pm.party_id",
+        "pm.message_body",
+        "pm.time_created",
+        "pm.edited",
+        "u.id AS user_id",
+        "u.username",
+        "u.email",
+        "u.avatar_url"
+        )
+        .leftJoin("users AS u", "u.id", "pm.owner_id")
+        .where("pm.party_id", partyId)
+        .orderBy('unix_stamp', 'asc');
+  },
+  updateChatMessage(db, id, newMessage){
+    return db('party_messages')
+      .where('id', id)
+      .update(newMessage);
+  },
+  deleteChatMessage(db, id){
+    return db('party_messages')
+      .where('id', id)
+      .del();
+  }, 
+  insertIntoArchive(db, message){
+    return db
+      .insert(message)
+      .into('archived_messages')
+      .returning("id")
+      .then(([message]) => message);
+  },
+  deletePartyChatLogs(db, partyId){
+    return db('party_messages')
+      .where('party_id', partyId)
+      .del();
   }
-
 };
 
 module.exports = PartyService;

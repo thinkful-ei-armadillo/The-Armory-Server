@@ -88,6 +88,19 @@ PartyRouter
       next(error);
     }
   });
-  
+
+PartyRouter
+  .route('/messages/:partyId')
+  .get(async (req, res, next) => {
+    const { partyId } = req.params;
+    try {
+      const chatLog = await PartyService.getPartyMessages(req.app.get('db'), partyId);
+      res.status(200).json(chatLog);
+    }
+    catch (error){
+      next(error);
+    }
+  })
+
 
 module.exports = PartyRouter;
