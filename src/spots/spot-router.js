@@ -45,5 +45,4 @@ SpotRouter
     }
   });
   
-
 module.exports = SpotRouter;

@@ -1,5 +1,5 @@
 BEGIN;
-TRUNCATE party, party_requirements, party_apps, spot_roles, spots, games, users;
+TRUNCATE archived_messages, party_messages, party, party_requirements, party_apps, spot_roles, spots, games, users;
 INSERT INTO users (username, email, password, avatar_url, not_verified)
 VALUES
     (
@@ -320,5 +320,4 @@ VALUES(
     '64ed5ba8-78db-44c6-ae60-46e6a2a07ff9',
     'I need healing!'
 );
-
 COMMIT;

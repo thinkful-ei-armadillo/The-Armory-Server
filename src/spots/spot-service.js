@@ -19,10 +19,11 @@ const SpotService = {
   },
   updateSpot(db, spot_id, newSpot) {
     return db('spots')
-    .where('id', spot_id)
-    .update(newSpot);
+      .where('id', spot_id)
+      .update(newSpot);
   }, 
   getSpotById(db, id){
+    console.log('huh?', id);
     return db
       .select('*')
       .from('spots')
