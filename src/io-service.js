@@ -1,14 +1,19 @@
 let io;
 let app;
+
+const GamesService = require('./games/games-service');
+const config = require('./config');
 const { requireSocketAuth } = require("./middleware/jwt-auth");
 const SpotService = require("./spots/spot-service");
 const PartyService = require("./party/party-service");
 const uuid = require("uuid");
 const xss = require('xss');
 
+
 const ioService = {
   setUpIo(ioInstance) {
     io = ioInstance;
+
     io.on("connection", function(socket) {
       console.log("connected!");
 
@@ -76,6 +81,12 @@ const ioService = {
       socket.on("join room", function(room_id) {
         socket.join(room_id);
       });
+  
+      socket.on('get updated pages available', async function(msg) {
+        const { gameId, roleFilters, requirementFilters, searchTerm, gamemodeFilter } = msg;
+        const [partyCount] = await GamesService.getPartyCount(req.app.get("db"), gameId, searchTerm, gamemodeFilter, requirementFilters, roleFilters);
+        io.to(socket.id).emit('updated pages available', Math.ceil(partyCount.count/config.PARTY_DISPLAY_LIMIT));
+      })
 
       socket.on("chat message", async function(messageData) {
 

@@ -5,5 +5,6 @@ module.exports = {
   NODE_ENV: process.env.NODE_ENV || 'development',
   DB_URL: process.env.DATABASE_URL || 'postgresql://postgres@localhost/armory',
   JWT_SECRET: process.env.JWT_SECRET || 'super-secret-secret',
-  JWT_EXPIRY: process.env.JWT_EXPIRY || '3h'
+  JWT_EXPIRY: process.env.JWT_EXPIRY || '3h',
+  PARTY_DISPLAY_LIMIT: 10,
 };

@@ -5,6 +5,7 @@ CREATE TABLE party(
     require_app BOOLEAN,
     owner_id INT NOT NULL UNIQUE REFERENCES users(id) ON DELETE CASCADE,
     description VARCHAR(140),
-    filled BOOLEAN default false,
-    ready BOOLEAN default false
+    gamemode INT NOT NULL,
+    ready BOOLEAN default false,
+    date_posted TIMESTAMP DEFAULT now() NOT NULL
 );

@@ -10,14 +10,12 @@ const SpotService = {
       .into('spots')
       .returning('id')
       .then(([spot]) => spot);
-    await Promise.all(
-      roles.map(async function(role) {
-        await db.insert({
-          spot_id: spotId,
-          role_id: role
-        });
-      })
-    );
+    await roles.forEach(async function(role) {
+      await db('spot_roles').insert({
+        spot_id: spotId,
+        role_id: role
+      });
+    });
   },
   updateSpot(db, spot_id, newSpot) {
     return db('spots')
@@ -47,7 +45,14 @@ const SpotService = {
       .where('filled', user_id)
       .andWhere({party_id})
       .first();
-  }
+  },
+  getSpotsLeft: async function(db, partyId) {
+    return db
+      .count('*')
+      .from('spots')
+      .where('party_id', partyId)
+      .andWhere('filled', null);
+  },
 };
 
 module.exports = SpotService;

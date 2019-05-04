@@ -11,25 +11,33 @@ SpotRouter
   .patch("/:spotId", requireAuth, bodyParser, async (req, res, next) => {
     const { spotId } = req.params;
     const { game_id, party_id } = req.body;
-    console.log(game_id, party_id);
+
     const db = req.app.get('db');
     try {
       const spot = await SpotService.getSpotById(db, spotId);
+
+      if (!spot) {
+        return res.status(404).json({ error: 'Spot not found' });
+      }
+
       if (spot.filled) {
         return res.json({ error: 'Spot is already taken' });
       }
 
-      const party = await PartyService.getSimplePartyById(db, spot.party_id);
+      const [{count}] = await SpotService.getSpotsLeft(db, party_id);
+ 
       const promises = [await SpotService.updateSpot(db, spotId, { filled: req.user.id })];
 
-      if (party.spots_left < 2) {
-        promises.push(await PartyService.updateParty(db, party_id, { filled: true }));
+      if (count < 2) {
+        promises.push(await PartyService.updateParty(db, party_id, { ready: false }));
       }
 
       await Promise.all(promises);
+      
+      const updatedParty = await PartyService.serializeGamePageParty(db, await PartyService.getPartyById(db, party_id));
 
       res.sendStatus(204);
-      ioService.emitRoomEvent('update parties', `/games/${game_id}`);
+      ioService.emitRoomEvent(count < 2 ? 'delist party' : 'spot updated', `/games/${game_id}`, updatedParty);
       ioService.emitRoomEvent('update party', `/party/${party_id}`);
       next();
     } catch (error) {
@@ -37,5 +45,4 @@ SpotRouter
     }
   });
   
-
 module.exports = SpotRouter;
