@@ -1,4 +1,6 @@
 let io;
+const GamesService = require('./games/games-service');
+const config = require('./config');
 
 const ioService = {
   setUpIo(ioInstance) {
@@ -56,7 +58,14 @@ const ioService = {
       //   }
       // });
 
+      socket.on('get updated pages available', async function(msg) {
+        const { gameId, roleFilters, requirementFilters, searchTerm, gamemodeFilter } = msg;
+        const [partyCount] = await GamesService.getPartyCount(req.app.get("db"), gameId, searchTerm, gamemodeFilter, requirementFilters, roleFilters);
+        io.to(socket.id).emit('updated pages available', Math.ceil(partyCount.count/config.PARTY_DISPLAY_LIMIT));
+      })
+
       socket.on('join room', function(room_id) {
+        console.log(room_id);
         socket.join(room_id);
       });
     

@@ -17,19 +17,36 @@ PartyRouter
       const { party, spots, requirement, room_id } = req.body;
       party.owner_id = req.user.id;
       //Verify information here
-      if (!party.game_id || !party.title) {
+
+      //party checks
+      if (!party.game_id || !party.title || !(party.gamemode || party.gamemode === 0)) {
         return res.json({ error: 'Missing required party information' });
       }
+
+      //spot checks
       if (spots.length < 1) {
         return res.json({ error: 'Must have at least one additional spot available' });
+      }
+
+      //requirement checks:
+      if (requirement.length > 2) {
+        return res.json({ error: 'Can only have 2 requirements maximum per party' });
+      }
+      if (requirement.length === 2 && requirement[0] === requirement[1]) {
+        return res.json({ error: 'Cannot have duplicate requirements' });
       }
 
       //inserts the party and grabs the ID
       partyId = await PartyService.insertParty(db, party);
       //updates all spots and the roles associated with said spot, inserts party requirements
       await Promise.all([
+        //Owner spot always exists
         await SpotService.insertSpot(db, partyId, [], req.user.id), 
-        await ReqService.insertReq(db, partyId, requirement),
+        //requirements
+        ...requirement.map(async(reqs) => {
+          return await ReqService.insertReq(db, partyId, reqs)
+        }),
+        //additional spots and their roles
         ...spots.map(async(spot) => {
           return await SpotService.insertSpot(db, partyId, spot.roles, spot.filled)
         })
@@ -37,15 +54,16 @@ PartyRouter
       //now that all requirements and spots are inserted, update DB so it knows party is publicly ready
       await PartyService.setReady(db, partyId);
       //grab the party details
-      const createdParty = await PartyService.serializeParty(db, await PartyService.getPartyById(db, partyId));
+      const createdParty = await PartyService.serializeGamePageParty(db, await PartyService.getPartyById(db, partyId));
       //emit the party details to everyone in the room, including the sender
       res
         .status(201)
-        .location(path.posix.join(req.originalUrl, `/${party.id}`))
-        .json(createdParty);
+        .location(path.posix.join(req.originalUrl, `/${partyId}`))
+        .json(partyId);
 
       ioService.emitRoomEvent('posted party', room_id, createdParty);
       next();
+      
     } catch(err) {
       //if there was an error but SOME of the stuff was inserted, need to delete to prevent it staying forever, deleting party cascades
       if (partyId) {
@@ -61,37 +79,21 @@ PartyRouter
   .get(async (req, res, next) => {
     const { partyId } = req.params;
     try {
-      let party = await PartyService.getPartyById(
+      let partyResponse = await PartyService.getPartyById(
         req.app.get('db'),
         partyId
       );
-      res.json(await PartyService.serializeParty(req.app.get('db'), party));
+
+      if (partyResponse.length < 1) {
+        return res.status(404).json({ error: 'Party not found' });
+      }
+
+      partyResponse = await PartyService.serializeParty(req.app.get('db'), partyResponse);
+      res.json(partyResponse);
       next();
-    } catch(error) {
+    } catch (error) {
       next(error);
     }
   });
-
-    partyResponse.reqs = partyResponse.reqs.map(req => {
-      return {
-        req_name: REQUIREMENT_STORE[partyResponse.game_id][req.id]
-      };
-    });
-    partyResponse.spots = partyResponse.spots.map(spot => {
-      return {
-        ...spot,
-        roles: spot.roles.map(role => {
-          return {
-            role_name: ROLES_STORE[partyResponse.game_id][role.id] || null
-          };
-        })
-      };
-    });
-    res.json(partyResponse);
-    next();
-  } catch (error) {
-    next(error);
-  }
-});
 
 module.exports = PartyRouter;
