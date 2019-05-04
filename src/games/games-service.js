@@ -86,7 +86,7 @@ const GamesService = {
       .andWhere('p.ready', true)
       .orderBy('p.date_posted')
       .orderBy('s.filled');
-  },
+  }
 };
 
 module.exports = GamesService;

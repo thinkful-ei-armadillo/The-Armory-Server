@@ -34,11 +34,12 @@ SpotRouter
 
       await Promise.all(promises);
       
-      const updatedParty = await PartyService.serializeGamePageParty(db, await PartyService.getPartyById(db, party_id));
+      const updatedGamePageParty = await PartyService.serializeGamePageParty(db, await PartyService.getPartyById(db, party_id));
+      const updatedParty = await PartyService.serializeParty(db, await PartyService.getPartyById(db, party_id));
 
       res.sendStatus(204);
-      ioService.emitRoomEvent(count < 2 ? 'delist party' : 'spot updated', `/games/${game_id}`, updatedParty);
-      ioService.emitRoomEvent('update party', `/party/${party_id}`);
+      ioService.emitRoomEvent(count < 2 ? 'delist party' : 'spot updated', `/games/${game_id}`, updatedGamePageParty);
+      ioService.emitRoomEvent('update party', `/party/${party_id}`, updatedParty);
       next();
     } catch (error) {
       next(error);

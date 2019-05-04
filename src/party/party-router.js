@@ -20,7 +20,7 @@ PartyRouter
       const { party, spots, requirement, room_id } = req.body;
       party.owner_id = req.user.id;
       //Verify information here
-
+      console.log('my check for request', party, spots, requirement, room_id);
       //party checks
       if (!party.game_id || !party.title || !(party.gamemode || party.gamemode === 0)) {
         return res.json({ error: 'Missing required party information' });

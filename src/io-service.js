@@ -1,14 +1,13 @@
 let io;
 let app;
 
-const GamesService = require('./games/games-service');
-const config = require('./config');
+const GamesService = require("./games/games-service");
+const config = require("./config");
 const { requireSocketAuth } = require("./middleware/jwt-auth");
 const SpotService = require("./spots/spot-service");
 const PartyService = require("./party/party-service");
 const uuid = require("uuid");
-const xss = require('xss');
-
+const xss = require("xss");
 
 const ioService = {
   setUpIo(ioInstance) {
@@ -19,6 +18,7 @@ const ioService = {
 
       socket.on("leave party", async function(msg) {
         const db = app.get("db");
+        console.log("msg from leave party", msg);
         const { party_id, user_auth, room_id, game_id } = msg;
         try {
           const user_id = await requireSocketAuth(db, user_auth);
@@ -26,6 +26,10 @@ const ioService = {
 
           const spot = await SpotService.findUserSpot(db, user_id, party_id);
           console.log("spot_id", spot.id);
+
+          if (!spot) {
+            console.error("cannot find spot");
+          }
 
           await SpotService.updateSpot(db, spot.id, { filled: null });
           const { owner_id } = await PartyService.getOwnerId(db, party_id);
@@ -47,20 +51,32 @@ const ioService = {
                 .in(`/games/${game_id}`)
                 .emit("update parties", party_id);
             }
+
             if (newOwners[0].filled) {
+
               await PartyService.updateParty(db, party_id, {
                 owner_id: newOwners[0].filled
               });
             }
           }
-          const party = await PartyService.serializeParty(
+          const updatedGamePageParty = await PartyService.serializeGamePageParty(
             db,
             await PartyService.getPartyById(db, party_id)
           );
-          console.log("party", party);
+          const updatedParty = await PartyService.serializeParty(
+            db,
+            await PartyService.getPartyById(db, party_id)
+          );
+          console.log('updated party', updatedParty)
 
-          io.sockets.in(room_id).emit("update party");
-          io.sockets.in(`/games/${game_id}`).emit("update parties");
+          const [{ count }] = await SpotService.getSpotsLeft(db, party_id);
+
+          if (count < 2) {
+            await PartyService.deleteParty(db, party_id);
+          }
+
+          ioService.emitRoomEvent(count < 2 ? 'delist party' : 'spot updated', `/games/${game_id}`, updatedGamePageParty);
+          ioService.emitRoomEvent('update party', room_id, updatedParty);
           console.log("game_id", game_id);
         } catch (err) {
           console.error(err);
@@ -81,58 +97,93 @@ const ioService = {
       socket.on("join room", function(room_id) {
         socket.join(room_id);
       });
-  
-      socket.on('get updated pages available', async function(msg) {
-        const { gameId, roleFilters, requirementFilters, searchTerm, gamemodeFilter } = msg;
-        const [partyCount] = await GamesService.getPartyCount(req.app.get("db"), gameId, searchTerm, gamemodeFilter, requirementFilters, roleFilters);
-        io.to(socket.id).emit('updated pages available', Math.ceil(partyCount.count/config.PARTY_DISPLAY_LIMIT));
-      })
 
-      socket.on("chat message", async function(messageData) {
-
-        const roomId = messageData.room_id;
-        const party_id = roomId.split('/').splice(2, 1).join('');
-          messageData = {
-            party_id,
-            message_body: xss(messageData.message),
-            owner_id: messageData.user_id,
-            time_created: messageData.timeStamp,
-            unix_stamp: messageData.unix_stamp
-          }
-          await PartyService.insertMessage(app.get("db"), messageData);
-          await PartyService.insertIntoArchive(app.get('db'), messageData);
-          const messages = await PartyService.getPartyMessages(app.get('db'), party_id);
-          io.sockets.in(roomId).emit("update chat", messages);
-        
+      socket.on("get updated pages available", async function(msg) {
+        const {
+          gameId,
+          roleFilters,
+          requirementFilters,
+          searchTerm,
+          gamemodeFilter
+        } = msg;
+        const [partyCount] = await GamesService.getPartyCount(
+          req.app.get("db"),
+          gameId,
+          searchTerm,
+          gamemodeFilter,
+          requirementFilters,
+          roleFilters
+        );
+        io.to(socket.id).emit(
+          "updated pages available",
+          Math.ceil(partyCount.count / config.PARTY_DISPLAY_LIMIT)
+        );
       });
 
-      socket.on("edit chat message", async function(messageData){
+      socket.on("chat message", async function(messageData) {
         const roomId = messageData.room_id;
-        const party_id = roomId.split('/').splice(2, 1).join('');
+        const party_id = roomId
+          .split("/")
+          .splice(2, 1)
+          .join("");
+        messageData = {
+          party_id,
+          message_body: xss(messageData.message),
+          owner_id: messageData.user_id,
+          time_created: messageData.timeStamp,
+          unix_stamp: messageData.unix_stamp
+        };
+        await PartyService.insertMessage(app.get("db"), messageData);
+        await PartyService.insertIntoArchive(app.get("db"), messageData);
+        const messages = await PartyService.getPartyMessages(
+          app.get("db"),
+          party_id
+        );
+        io.sockets.in(roomId).emit("update chat", messages);
+      });
+
+      socket.on("edit chat message", async function(messageData) {
+        const roomId = messageData.room_id;
+        const party_id = roomId
+          .split("/")
+          .splice(2, 1)
+          .join("");
         const newMessage = {
           message_body: messageData.message,
-          edited: true,
-        }
-        await PartyService.updateChatMessage(app.get('db'), messageData.id, newMessage)
+          edited: true
+        };
+        await PartyService.updateChatMessage(
+          app.get("db"),
+          messageData.id,
+          newMessage
+        );
 
         messageData = {
           party_id,
           message_body: xss(messageData.message),
           owner_id: messageData.user_id,
           time_created: messageData.timeStamp,
-          unix_stamp: messageData.unix_stamp,
-        }
-        await PartyService.insertIntoArchive(app.get('db'), messageData);
-        const updatedMessages = await PartyService.getPartyMessages(app.get('db'), party_id)
+          unix_stamp: messageData.unix_stamp
+        };
+        await PartyService.insertIntoArchive(app.get("db"), messageData);
+        const updatedMessages = await PartyService.getPartyMessages(
+          app.get("db"),
+          party_id
+        );
         io.sockets.in(roomId).emit("update chat", updatedMessages);
-      })
+      });
 
       socket.on("delete chat message", async function(messageData) {
-        await PartyService.deleteChatMessage(app.get('db'), messageData.id)
-        const messages = await PartyService.getPartyMessages(app.get('db'), messageData.party_id);
+        await PartyService.deleteChatMessage(app.get("db"), messageData.id);
+        const messages = await PartyService.getPartyMessages(
+          app.get("db"),
+          messageData.party_id
+        );
         console.log(messageData.room_id);
-        io.sockets.in(messageData.room_id).emit("delete chat message", messages);
-      })
+        io.sockets
+          .in(messageData.room_id)
+          .emit("delete chat message", messages);
+      });
 
       socket.on("leave game", function() {
         console.log(socket.id);
