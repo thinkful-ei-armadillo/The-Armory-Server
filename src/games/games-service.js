@@ -1,3 +1,4 @@
+/* eslint-disable strict */
 const config = require('../config');
 const PARTY_DISPLAY_LIMIT = config.PARTY_DISPLAY_LIMIT;
 
@@ -86,6 +87,23 @@ const GamesService = {
       .andWhere('p.ready', true)
       .orderBy('p.date_posted')
       .orderBy('s.filled');
+  },
+  getPartyCountDashboard(db) {
+    return db
+      .select('games.id')
+      .count('party.game_id as party_count')
+      .from('games')
+      .leftJoin('party', 'games.id', 'party.game_id')
+      .groupBy(1);
+  },
+  // service for dashboard search
+  searchTitleQuery(db, query) {
+    return db
+      .select('*')
+      .from('games')
+      .whereRaw(
+        `LOWER(title) similar to '%(${query.join('').toLowerCase()})%'`
+      );
   }
 };
 
