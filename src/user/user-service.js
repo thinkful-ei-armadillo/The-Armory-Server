@@ -25,7 +25,7 @@ const UserService = {
   getUserInfo(db, userId){
     return db 
       .from('users')
-      .select('id', 'username', 'avatar_url')
+      .select('id', 'username', 'avatar_url', 'email')
       .where('id', userId)
       .first();
   },

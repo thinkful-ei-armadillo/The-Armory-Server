@@ -73,6 +73,7 @@ userRouter.patch(
     const userId = req.params.userId;
     const { password, email, avatar_url } = req.body;
     const updates = {};
+    console.log(updates, req.body)
     try {
       if(!password && !email && !avatar_url){
         return res.status(400).json({
