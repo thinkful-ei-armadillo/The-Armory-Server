@@ -12,11 +12,15 @@ const GAMEMODE_STORE = require('../store/gamemodes');
 
 const config = require('../config');
 const {PARTY_DISPLAY_LIMIT} = config;
+const url = require("url");
 
 gamesRouter.get("/", async (req, res, next) => {
   try {
     const games = await GamesService.getAllGames(req.app.get("db"));
     const array = [];
+    const partyCountDashboard = await GamesService.getPartyCountDashboard(req.app.get("db"));
+    let url_parts = url.parse(req.url, true);
+    let query = url_parts.query;
     
     await Promise.all(games.map(async game => {
       const [partyCount] = await GamesService.getPartyCount(req.app.get("db"), game.id);
@@ -30,7 +34,32 @@ gamesRouter.get("/", async (req, res, next) => {
       array.push(game);
     }));
 
-    res.status(200).json(array);
+    if (Object.keys(query).length > 0) {
+      console.log("query.query =", query.query);
+      if (query.query === undefined) {
+        query.query = "";
+      }
+      const newGames = await GamesService.searchTitleQuery(
+        req.app.get("db"),
+        query.query.split(" ")
+      );
+      console.log("QUERY.QUERY.SPLIT", query.query.split(" "));
+      console.log("newGames", newGames);
+      newGames.map(game => {
+        const match = partyCountDashboard.find(item => item.id === game.id);
+        game.party_count = match.party_count;
+
+        const gameRoles = ROLES_STORE[game.id];
+        const gameRequirements = REQUIREMENT_STORE[game.id];
+        game.roles = gameRoles;
+        game.requirements = gameRequirements;
+        array.push(game);
+      });
+      console.log("NEWGAMES ===", newGames);
+      res.status(200).json(newGames);
+    } else {
+      res.status(200).json(array);
+    }
   } catch (error) {
     next(error);
   }
