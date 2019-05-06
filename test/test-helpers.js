@@ -8,33 +8,11 @@ function cleanTables(db) {
 function makeGamesArray() {
   return [
     {
-      id: "1b1d0771-c2c7-4d3b-a13e-b89bbf0acbd7",
-      title: "Fortnite",
-      image_url:
-        "https://cdn.gamerant.com/wp-content/uploads/fortnite-season-8-week-4-challenge-leak.jpg.optimal.jpg",
-      tags: ["Shooter", "Battle Royale"],
-      party_limit: 4,
-      party_count: 0,
-      requirements: {
-        "5": {
-          name: "E-Sports"
-        },
-        "6": {
-          name: "Public"
-        },
-        "7": {
-          name: "Beginner"
-        },
-        "8": {
-          name: "Passive"
-        },
-        "9": {
-          name: "Experienced"
-        },
-        "10": {
-          name: "Aggressive"
-        }
-      }
+      "id": "aa0e8ce9-1a71-42e7-804d-6838556fa6ed",
+      "title": "Overwatch",
+      "image_url": "https://static.playoverwatch.com/media/wallpaper/logo-burst-wide.jpg",
+      "tags": '{"Shooter", "FPS"}',
+      "party_limit": 6
     }
   ];
 }
