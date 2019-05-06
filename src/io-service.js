@@ -98,28 +98,6 @@ const ioService = {
         socket.join(room_id);
       });
 
-      socket.on("get updated pages available", async function(msg) {
-        const {
-          gameId,
-          roleFilters,
-          requirementFilters,
-          searchTerm,
-          gamemodeFilter
-        } = msg;
-        const [partyCount] = await GamesService.getPartyCount(
-          req.app.get("db"),
-          gameId,
-          searchTerm,
-          gamemodeFilter,
-          requirementFilters,
-          roleFilters
-        );
-        io.to(socket.id).emit(
-          "updated pages available",
-          Math.ceil(partyCount.count / config.PARTY_DISPLAY_LIMIT)
-        );
-      });
-
       socket.on("chat message", async function(messageData) {
         const roomId = messageData.room_id;
         const party_id = roomId
