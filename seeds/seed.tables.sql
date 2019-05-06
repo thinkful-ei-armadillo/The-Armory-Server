@@ -106,56 +106,56 @@ INSERT INTO games (id, title, image_url, tags, party_limit)
 VALUES(
     'aa0e8ce9-1a71-42e7-804d-6838556fa6ed',
     'Overwatch',
-    'https://previews.dropbox.com/p/thumb/AAZNxBxHfh8kEcMh2Z-Zc9v3oU_1zpuQRgCmAIacXh8t4aUhbh7Iw3V_mhoXZsJz4P3CVAsxI7tJt8Hd6XxtPEmX16yCmhQgKn4ckWQ63D2ZaMxD5MSEPrkahOV1gj6v57__sGU7XFXpz--i89ybAOijIAVLeTIUYDGjLOBdljeHQvOPRPecDt7D0uT0Js2LFF9S52DO9UZ_ofq7Rq9PY4NlOZXkUadOdk5gxGcrzwz6OpS4p4qWkxrJrszgTfIGOOT_2Q9X53NXs_Ej-ZXYYsxHM8noKk5PD8J_bsiCKMRxnRtBSy5-ZKlkIbEmJGZ336kTZt_f2bRd9e5fcwciHq5h/p.png?size_mode=5',
+    'https://res.cloudinary.com/squadarmory/image/upload/v1557172650/overwatch_epjgky.png',
     '{"Shooter", "FPS"}',
     6
 ),
 (
     '1c0aa6f7-0e03-4ceb-82de-ac53617f1b30',
     'Final Fantasy XIV',
-    'https://previews.dropbox.com/p/thumb/AAYQomNTc2-tJIw-wSJ2LEhs30x29oeXiddFIoWruEyqalnJ5C3oJk8FPJ75aen-8eyydlSu5aQ5LN45cpBnoBiUCwz7BBROJzMqQQsvJ-ItKHVVzidnzBoaAO9VUbEyRZPawmDF6o0R7GC8nyYufMyCSkgYAS3m5USrIn-MDmzReEYhFAm936bG9OQrmX9pzYXeOZ8Bm5pg6nL7qbrqbHHaYN618t8HbzrUmi3OzMQCCMolF6DW0-f2fdVXyv_V3y2zUp1CG9IaYU2SJTu_jjkwrSNd0-IGC58dgUy-FEtv7i7o2qfs_5NN8qZSWWM8TU65kCzEzyGxi7S9zk6VcqSF/p.png?size_mode=5',
+    'https://res.cloudinary.com/squadarmory/image/upload/v1557172654/FFXIV_n7geqy.png',
     '{"MMORPG"}',
     8
 ),
 (
     '2e443716-4f9e-4a1c-89c9-ad4801f6dcc0',
     'League of Legends',
-    'https://previews.dropbox.com/p/thumb/AAa_-2F701ZsMBCZmTw0Vks7ZYemSOROD5D1VETsx9c0u-bpCyVo70BTjee_w5XRZ9Q7GePxpWMJpwFW-VAEC4gMPYidQgrrq7xZiIcO7R9FNO-sodmbFXLvLObDB9NF7moHG83y6jeZgtEtiSLPD5cMhI2kpi9Un3rSUWa3aTX3pAjXnEkQjGwWRMabB3x5MXU0kPTPhn5bT5x97uP4lSehIgLkNE6L7_2DAzEF-bdPQ3SAPX70oAGOcWeHbCkITWxJ5OUlDYhh38d5QFau-brc5bhAwqYR473DvTGXabgKukxaRaZOor-MZLqrGPPLMEDKczBz7uNnK-VR1HsaqvyN/p.png?size_mode=5',
+    'https://res.cloudinary.com/squadarmory/image/upload/v1557172653/league-of-legends_zwxsyj.png',
     '{"MOBA"}',
     5
 ),
 (
     '1b1d0771-c2c7-4d3b-a13e-b89bbf0acbd7',
     'Fortnite',
-    'https://previews.dropbox.com/p/thumb/AAbQAJq0ZnG7q1TfhUqsILA0pN37cF_6Hmjl85O0aCdlQdvLVF1M9Gp82UG5GYr2o-fb735GaggW53ZKgiUGTuRLUZqEZU_VVLG_iViWaXCbNN0DwgkTHexmx3_DLZTbfFX1gHhlUYZU3wjsM6d_ANldKpzoikfS-lQ36O_E51_gHWR09Sdpqqk2JMyaxFjGewWfcHHwLq4-szuJ0TFEvvrglVn6Bj-wAW1bln_k9bRmcOlrhubJ5SyCelPii2VsuQRjyRIlnaMUoGts5n-9zz1CsVkefeYlh_7OLroC_DlK-Q1IJ56s6jYDXmx4qXCpXyPhnSS7vKXmqJth_r-TtwlB/p.png?size_mode=5',
+    'https://res.cloudinary.com/squadarmory/image/upload/v1557172653/fortnite_bcyojw.png',
     '{"Shooter", "Battle Royale"}',
     4
 ),
 (
     'c30ca766-064e-4ca1-b1bd-1a88d41993f8',
     'Apex Legends',
-    'https://previews.dropbox.com/p/thumb/AAYvuY5PcPvCCEC8o_sLn2-TO-_7r1U8E-ZAlXCDIXLfoRy4IgJ9uwuOImGg9CYYkffMqoRpB2ybIEij8AMXJ-YBSg-zcJtD6Mh6tFLaNI8R2sbsCtwmwtsg4mjZ0gYWdZkoovZu3-icrzvWggCi4t88pr_w1EAHfVd6trDYKbfKVTrt5uBqYY74rD3JUWUNytKaezTVJqlP4Z7yj7159P8hE-qrTqFVKF31LDv_EjqwF7TN0A7TvbJ3NGnxWI1kC7KfVBRQ46vmxBz4QWppV774iEDSPg-O69Qrb8aHEgQqshIhS7H-ny8W9IYMVAreQ4T-LUuccKKDG3avP8wDypIS/p.png?size_mode=5',
+    'https://res.cloudinary.com/squadarmory/image/upload/v1557172654/apexLegends_hdizhp.png',
     '{"Shooter", "FPS", "Battle Royale"}',
     3
 ),
 (
     'daf6b132-61e6-45a1-81e4-1bac7657790a',
     'DOTA 2',
-    'https://previews.dropbox.com/p/thumb/AAaFNQmFl0ZjX3FKbwDuZAJJL0TTMlpeqGhPhArd7KopYq-I0cZhopiYaRmUpdiHxYEY-KDolgZUQvilUpaMgzFSfc4LKMlseMXtDpyvGhKgH98-BNDEzvAeE6ho9v8RA9jhB5hfFk2eA6eIPAea2OL5LWbvGqOHfChbpoaoJokZedAMNAhyl_Ji-u1N6SsdXxgrMivKrry6FhB7t4cDqfVVF27zkAR4tfx7Lm9KZnt2eS5S3Tu1kfM2HXw6Rf9jRXlulFh41dydWklgtz8Bteul7Kdxh0oCEDw1did13nukxFLgHeNwpgOx2Tlk3NPCUcvyX8V6DVhxFY7TjHf9wsF9/p.png?size_mode=5',
+    'https://res.cloudinary.com/squadarmory/image/upload/v1557172650/dota2_nwztht.png',
     '{"MOBA"}',
     5
 ),
 (
     '0be67bb2-4c4f-4046-961a-45f3ff94c32f',
     'CSGO',
-    'https://previews.dropbox.com/p/thumb/AAY4LCk363K3Diz_vU6jubr8dKcVp8jy3iD3_n_e8NXVn8aqcL94rJU31l4ZeX-_1BgvUm70gShOL7pft9Us2ShiHY1lIECkAHQBwj9k9na_nyz29nZs-CWGWEBsGQHyezkZSKuFE9ObKcqgtSZvp7UxrRYpzHNmoevJaTIrGHatqPYgU0C3M9Jm8M6_4iChja-IcwiJuXuPoETKu2UQpEsjZM7gg6XxZ1OdlMuJmDzPwD03r-ToqXXhXfkAVsmo-QTxfCY-rfazKfkEuFfGSVu9JYXCE_IgaCYffaUbzmWuo6nFCUwyM0ByBiJitWtHxWXwtY9_fZI7vUOTFagxSWgn/p.png?size_mode=5',
+    'https://res.cloudinary.com/squadarmory/image/upload/v1557172653/csgo_i9nmb4.png',
     '{"Shooter", "FPS"}',
     6
 ),
 (
     'ce4c02e2-02fd-4f9e-9686-ecc9385eb1d5',
     'Rainbow 6 Siege',
-    'https://previews.dropbox.com/p/thumb/AAbFG9PFaFm-440mQ7dmca_xmO2LDy5lQM0Xxh0mdKKmGQws3lTnsp3YRIViF8aFt64yHJRZTlKkUFA8kMbseV7qFVTp9cD7IvXct9QN04E1RwXxIBYiKI7lrC9KavQewjCZ7Xiucwob33eUa4D-T2FJnvhOffMgOz4lg4plChrOaQr5N6ceyw4HsTcbB3M5id_7cpFfn7si1x65jUi6c14Q_CxCCn5AF1uwDe9p79nJ5tZJRRPH8kEi4qvRqSQFLPyu5JdFpS9hDYUF6tRyp1vhe9_NMcF8YVPABQryMHEhCWp2ltqxoDhRcSHBwNMRjMXGmeq9uCQSqYA2tfAHC_nx/p.png?size_mode=5',
+    'https://res.cloudinary.com/squadarmory/image/upload/v1557172651/rainbowSix_dm967t.png',
     '{"Shooter", "FPS"}',
     6
 );
