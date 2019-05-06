@@ -90,8 +90,16 @@ gamesRouter
     //can search by NAME (via search bar)
     //includes a COUNT of all parties
     const { gameId } = req.params;
-    const { page, term, gamemode, reqs, roles } = req.query;
+    const { page, term, gamemode, reqs, roles, countonly } = req.query;
     try {
+      let [partyCount] = await GamesService.getPartyCount(req.app.get("db"), gameId, term, gamemode, reqs, roles);
+      partyCount = parseInt(partyCount.count);
+      const pagesAvailable = Math.ceil(partyCount/PARTY_DISPLAY_LIMIT) || 1;
+      
+      if (countonly) {
+        return res.json({ parties_available: partyCount, pages_available: pagesAvailable });
+      }
+
       let parties = await GamesService.getAllParties(
         req.app.get('db'),
         gameId,
@@ -101,6 +109,7 @@ gamesRouter
         reqs,
         roles
       );
+
       const tree = new Treeize().setOptions({ output: { prune: false }}); //prevents removal of 'null'
       tree.grow(parties);
       let partyResponse = tree.getData();
@@ -128,13 +137,12 @@ gamesRouter
         return party;
       }));
 
-      const [partyCount] = await GamesService.getPartyCount(req.app.get("db"), gameId, term, gamemode, reqs, roles);
       // const pages_available = await GamesService.getPartyCount
 
       res.json({
         game_id: gameId,
-        pages_available: Math.ceil(partyCount.count/PARTY_DISPLAY_LIMIT),
-        parties_available: parseInt(partyCount.count),
+        pages_available: pagesAvailable,
+        parties_available: partyCount,
         parties: partyResponse,
       });
 
