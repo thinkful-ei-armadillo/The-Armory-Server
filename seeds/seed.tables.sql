@@ -106,7 +106,7 @@ INSERT INTO games (id, title, image_url, tags, party_limit)
 VALUES(
     'aa0e8ce9-1a71-42e7-804d-6838556fa6ed',
     'Overwatch',
-    'https://previews.dropbox.com/p/thumb/AAawi5ehHTlt8DY41QWN1fK_7_kGjjHmmEN4bN6uEAXO5dfu3-4Mqi4bTOKxQuW99KwyAqsoLy8532u-4vqfNA32LdoJSlC7IdvaIPYwNMBnAlbf6yt6-euQQljgyvP_4p3eo0HZWtBSbQu_xvDxHliYBkRABzuxgQ2A2pSgFOeR6AUawkiqDTgmLQFat69XaI4Mzkob5deTNh2r5QF3Z0Q0p-c-EEfWm79M71dHp9bINjxKkzz8K4WZ4jbZKyhmyiDmKbpJ3cJFrULADWw07BE06KMNxvaXnAqIP5kPzqnCuNJ0oezYIs9dUh7htyy5Coh7gA0Tw-XwBqwqD2tw-LT_/p.png?size_mode=5',
+    'https://previews.dropbox.com/p/thumb/AAZNxBxHfh8kEcMh2Z-Zc9v3oU_1zpuQRgCmAIacXh8t4aUhbh7Iw3V_mhoXZsJz4P3CVAsxI7tJt8Hd6XxtPEmX16yCmhQgKn4ckWQ63D2ZaMxD5MSEPrkahOV1gj6v57__sGU7XFXpz--i89ybAOijIAVLeTIUYDGjLOBdljeHQvOPRPecDt7D0uT0Js2LFF9S52DO9UZ_ofq7Rq9PY4NlOZXkUadOdk5gxGcrzwz6OpS4p4qWkxrJrszgTfIGOOT_2Q9X53NXs_Ej-ZXYYsxHM8noKk5PD8J_bsiCKMRxnRtBSy5-ZKlkIbEmJGZ336kTZt_f2bRd9e5fcwciHq5h/p.png?size_mode=5',
     '{"Shooter", "FPS"}',
     6
 ),

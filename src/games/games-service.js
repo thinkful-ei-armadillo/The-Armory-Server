@@ -58,7 +58,6 @@ const GamesService = {
       .where("games.id", id)
       .first();
   },
-
   getAllParties(db, gameId, page, searchterm, gamemode_filter, req_filter, role_filter) {
     let baseParty = db('party').where('game_id', gameId).andWhere('ready', true).limit(PARTY_DISPLAY_LIMIT).offset(page * PARTY_DISPLAY_LIMIT);
     baseParty = this.applyFilters(baseParty, searchterm, gamemode_filter, req_filter, role_filter);
