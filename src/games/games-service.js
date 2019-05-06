@@ -74,33 +74,9 @@ const GamesService = {
       .where("games.id", id)
       .first();
   },
-<<<<<<< HEAD
   getAllParties(db, gameId, page, searchterm, gamemode_filter, req_filter, role_filter) {
     let baseParty = db('party').where('game_id', gameId).andWhere('ready', true).limit(PARTY_DISPLAY_LIMIT).offset(page * PARTY_DISPLAY_LIMIT);
     baseParty = this.applyFilters(baseParty, searchterm, gamemode_filter, req_filter, role_filter);
-=======
-  getAllParties(
-    db,
-    gameId,
-    page,
-    searchterm,
-    gamemode_filter,
-    req_filter,
-    role_filter
-  ) {
-    let baseParty = db("party")
-      .where("game_id", gameId)
-      .andWhere("ready", true)
-      .limit(PARTY_DISPLAY_LIMIT)
-      .offset(page * PARTY_DISPLAY_LIMIT);
-    baseParty = this.applyFilters(
-      baseParty,
-      searchterm,
-      gamemode_filter,
-      req_filter,
-      role_filter
-    );
->>>>>>> 27d046a5014091dd4b33867d5ba3cc74b4fa3965
 
     return db({ p: baseParty })
       .select(
@@ -115,16 +91,8 @@ const GamesService = {
         "s.filled AS spots:filled",
         "sr.role_id AS spots:roles:id"
       )
-<<<<<<< HEAD
       .orderBy('p.date_posted')
       .orderBy('s.filled');
-=======
-      .leftJoin("spots AS s", "p.id", "s.party_id")
-      .leftJoin("party_requirements AS pr", "pr.party_id", "p.id")
-      .leftJoin("spot_roles AS sr", "sr.spot_id", "s.id")
-      .orderBy("p.date_posted")
-      .orderBy("s.filled");
->>>>>>> 27d046a5014091dd4b33867d5ba3cc74b4fa3965
   },
   getPartyCountDashboard(db) {
     return db
