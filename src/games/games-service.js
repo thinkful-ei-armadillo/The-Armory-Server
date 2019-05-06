@@ -52,7 +52,7 @@ const GamesService = {
       .first();
   },
   getAllParties(db, gameId, page, searchterm, gamemode_filter, req_filter, role_filter) {
-    let baseParty = db('party').limit(PARTY_DISPLAY_LIMIT).offset(page * PARTY_DISPLAY_LIMIT);
+    let baseParty = db('party').where('game_id', gameId).andWhere('ready', true).limit(PARTY_DISPLAY_LIMIT).offset(page * PARTY_DISPLAY_LIMIT);
     baseParty = this.applyFilters(baseParty, searchterm, gamemode_filter, req_filter, role_filter);
 
     return db({ p: baseParty })
@@ -83,8 +83,6 @@ const GamesService = {
         'sr.spot_id',
         's.id'
       )
-      .where('p.game_id', gameId)
-      .andWhere('p.ready', true)
       .orderBy('p.date_posted')
       .orderBy('s.filled');
   },
