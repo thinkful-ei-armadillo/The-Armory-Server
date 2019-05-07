@@ -4,9 +4,6 @@ const helpers = require("./test-helpers");
 
 describe("Games Endpoints", () => {
   let db;
-
-  const { testGames } = helpers.makeGamesFixtures();
-
   before("Make knex instance", () => {
     db = knex({
       client: "pg",
@@ -16,9 +13,7 @@ describe("Games Endpoints", () => {
   });
 
   after("disconnect from db", () => db.destroy());
-
   before("cleanup", () => helpers.cleanTables(db));
-
   afterEach("cleanup", () => helpers.cleanTables(db));
 
   describe("GET /api/games/", () => {
@@ -136,7 +131,7 @@ describe("Games Endpoints", () => {
       });
     });
   });
-  describe.only("GET /api/:gameId/parties", () => {
+  describe("GET /api/:gameId/parties", () => {
     context("given there are no parties for a given game", () => {
       beforeEach("insert a game", () => {
         const gamesArray = [
@@ -149,19 +144,128 @@ describe("Games Endpoints", () => {
             party_limit: 4
           }
         ];
-        return db.into("games").insert(gamesArray);
-      })
+        db.into("games").insert(gamesArray);
+      });
       it("responds with the game id and 0 parties available", () => {
         const expectedParties = {
-          "game_id": "1b1d0771-c2c7-4d3b-a13e-b89bbf0acbd7",
-          "pages_available": 1,
-          "parties_available": 0,
-          "parties": []
-      }
+          game_id: "1b1d0771-c2c7-4d3b-a13e-b89bbf0acbd7",
+          pages_available: 1,
+          parties_available: 0,
+          parties: []
+        };
         return supertest(app)
           .get("/api/games/1b1d0771-c2c7-4d3b-a13e-b89bbf0acbd7/parties")
-          .expect(200, expectedParties)
-      })
-    })
-  })
+          .expect(200, expectedParties);
+      });
+    });
+    context("given there are parties for a given game", () => {
+      beforeEach("insert a game", () => {
+        const user = [
+          {
+            id: 1,
+            username: "admin",
+            avatar_url:
+              "https://i.ebayimg.com/images/g/PfAAAOSwA3dYIPRN/s-l300.jpg",
+            email: "armorysquad@gmail.com",
+            password:
+              "$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG"
+          }
+        ];
+        const gamesArray = [
+          {
+            id: "aa0e8ce9-1a71-42e7-804d-6838556fa6ed",
+            title: "Overwatch",
+            image_url:
+              "https://static.playoverwatch.com/media/wallpaper/logo-burst-wide.jpg",
+            tags: ["Shooter", "FPS"],
+            party_limit: 6
+          }
+        ];
+        const party = [
+          {
+            id: "fb1d3c63-6a72-4013-be82-5b523c1dd1cd",
+            game_id: "aa0e8ce9-1a71-42e7-804d-6838556fa6ed",
+            title: "Admin",
+            require_app: true,
+            owner_id: 1,
+            description: "This is a description of this party.",
+            gamemode: 1,
+            ready: true
+          }
+        ];
+        const party_requirements = [
+          {
+            id: 1,
+            requirement_id: 2,
+            party_id: "fb1d3c63-6a72-4013-be82-5b523c1dd1cd"
+          }
+        ];
+        const spots = [
+          {
+            id: "25539899-aae0-469e-92c1-a2116badc84c",
+            party_id: "fb1d3c63-6a72-4013-be82-5b523c1dd1cd",
+            filled: 1
+          },
+          {
+            id: "64ed5ba8-78db-44c6-ae60-46e6a2a07ff9",
+            party_id: "fb1d3c63-6a72-4013-be82-5b523c1dd1cd",
+            filled: null
+          }
+        ];
+
+        const spot_roles = [
+          {
+            spot_id: "64ed5ba8-78db-44c6-ae60-46e6a2a07ff9",
+            role_id: 14
+          },
+          {
+            spot_id: "64ed5ba8-78db-44c6-ae60-46e6a2a07ff9",
+            role_id: 2
+          }
+        ];
+        Promise.all([
+          db.into("users").insert(user),
+          db.into("games").insert(gamesArray),
+          db.into("party").insert(party)
+        ]);
+      });
+      it("responds with the game and its available parties", () => {
+        const expected = {
+          game_id: "aa0e8ce9-1a71-42e7-804d-6838556fa6ed",
+          pages_available: 1,
+          parties_available: 1,
+          parties: [
+            {
+              id: "fb1d3c63-6a72-4013-be82-5b523c1dd1cd",
+              title: "Admin",
+              require_app: true,
+              owner_id: {
+                avatar_url:
+                  "https://i.ebayimg.com/images/g/PfAAAOSwA3dYIPRN/s-l300.jpg",
+                email: "armorysquad@gmail.com",
+                id: 1,
+                username: "admin"
+              },
+              description: "This is a description of this party.",
+              gamemode: {
+                icon_url: "",
+                name: "Quick Play"
+              },
+              reqs: [{}],
+              spots: [
+                {
+                  filled: null,
+                  id: null,
+                  roles: [{}]
+                }
+              ]
+            }
+          ]
+        };
+        return supertest(app)
+          .get("/api/games/aa0e8ce9-1a71-42e7-804d-6838556fa6ed/parties")
+          .expect(200, expected);
+      });
+    });
+  });
 });
