@@ -121,7 +121,7 @@ describe("Games Endpoints", () => {
       });
     });
     context("given there is no game with specified id", () => {
-      it("responds with 500 and an internal server error", () => {
+      it("responds with an error", () => {
         return supertest(app)
           .get("/api/games/1b1d0771-c2c7-4d3b-a13e-b89bbf0acbd7")
           .expect(500, {
