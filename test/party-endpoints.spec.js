@@ -37,7 +37,7 @@ describe("Party Endpoints", () => {
           .post("/api/parties")
           .expect(401);
       });
-      it("responds with an invalid request when bearer token provided but invalid request body", () => {
+      it.skip("responds with an invalid request when bearer token provided but invalid request body", () => {
         return supertest(app)
           .post("/api/parties")
           .set("Authorization", `Bearer ${process.env.TEST_BEARER_TOKEN}`)
