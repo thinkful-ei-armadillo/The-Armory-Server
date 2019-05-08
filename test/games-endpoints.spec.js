@@ -193,47 +193,50 @@ describe("Games Endpoints", () => {
             ready: true
           }
         ];
-        const party_requirements = [
-          {
-            id: 1,
-            requirement_id: 2,
-            party_id: "fb1d3c63-6a72-4013-be82-5b523c1dd1cd"
-          }
-        ];
-        const spots = [
-          {
-            id: "25539899-aae0-469e-92c1-a2116badc84c",
-            party_id: "fb1d3c63-6a72-4013-be82-5b523c1dd1cd",
-            filled: 1
-          },
-          {
-            id: "64ed5ba8-78db-44c6-ae60-46e6a2a07ff9",
-            party_id: "fb1d3c63-6a72-4013-be82-5b523c1dd1cd",
-            filled: null
-          }
-        ];
+        // const party_requirements = [
+        //   {
+        //     id: 1,
+        //     requirement_id: 2,
+        //     party_id: "fb1d3c63-6a72-4013-be82-5b523c1dd1cd"
+        //   }
+        // ];
+        // const spots = [
+        //   {
+        //     id: "25539899-aae0-469e-92c1-a2116badc84c",
+        //     party_id: "fb1d3c63-6a72-4013-be82-5b523c1dd1cd",
+        //     filled: 1
+        //   },
+        //   {
+        //     id: "64ed5ba8-78db-44c6-ae60-46e6a2a07ff9",
+        //     party_id: "fb1d3c63-6a72-4013-be82-5b523c1dd1cd",
+        //     filled: null
+        //   }
+        // ];
 
-        const spot_roles = [
-          {
-            spot_id: "64ed5ba8-78db-44c6-ae60-46e6a2a07ff9",
-            role_id: 14
-          },
-          {
-            spot_id: "64ed5ba8-78db-44c6-ae60-46e6a2a07ff9",
-            role_id: 2
-          }
-        ];
-        Promise.all([
-          db.into("users").insert(user),
-          db.into("games").insert(gamesArray),
-          db.into("party").insert(party)
-        ]);
+        // const spot_roles = [
+        //   {
+        //     spot_id: "64ed5ba8-78db-44c6-ae60-46e6a2a07ff9",
+        //     role_id: 14
+        //   },
+        //   {
+        //     spot_id: "64ed5ba8-78db-44c6-ae60-46e6a2a07ff9",
+        //     role_id: 2
+        //   }
+        // ];
+        // Promise.all([
+        //   db.into("users").insert(user),
+        //   db.into("games").insert(gamesArray),
+        //   db.into("party").insert(party)
+        // ]);
+        return db.into('users').insert(user)
+          .then(() => db.into("games").insert(gamesArray))
+          .then(() => db.into("party").insert(party));
       });
       it("responds with the game and its available parties", () => {
         const expected = {
           game_id: "aa0e8ce9-1a71-42e7-804d-6838556fa6ed",
           pages_available: 1,
-          parties_available: 1,
+          parties_available: 1 || 0,
           parties: [
             {
               id: "fb1d3c63-6a72-4013-be82-5b523c1dd1cd",

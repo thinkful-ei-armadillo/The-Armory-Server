@@ -29,14 +29,33 @@ describe("User Endpoints", () => {
     });
     it("responds with 201 and the user given a valid request", () => {
       const user = {
+        id: 1,
         email: "test@gmail.com",
         username: "test",
         password: "Password1!"
       };
+      //const expected = { id: 1, username: "test", email: "test@gmail.com" };
       return supertest(app)
         .post("/api/user")
         .send(user)
         .expect(201);
     });
+  });
+  describe("PATCH user", () => {
+    context("given no bearer token", () => {
+      it("responds with an error", () => {
+        return supertest(app)
+          .patch("/api/user/1")
+          .expect(401, { error: "Missing bearer token" });
+      });
+    });
+    context("given the user does not exist", () => {
+      it.only('responds with an error', () => {
+        return supertest(app)
+          .patch("/api/user/1")
+          .set("Authorization", `Bearer ${process.env.TEST_BEARER_TOKEN}`)
+          .expect();
+      })
+    })
   });
 });
