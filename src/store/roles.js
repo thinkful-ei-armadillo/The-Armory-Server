@@ -2,273 +2,273 @@ const ROLES_STORE = {
   'aa0e8ce9-1a71-42e7-804d-6838556fa6ed': {
     1: {
       name: 'Tank',
-      icon_url: ''
+      icon_url: 'Icon-Tank.png'
     },
     2: {
       name: 'Support',
-      icon_url: ''
+      icon_url: 'Icon-Support.png'
     },
     3: {
       name: 'Damage',
-      icon_url: ''
+      icon_url: 'Icon-Damage.png'
     },
     4: {
       name: 'D.Va',
-      icon_url: ''
+      icon_url: 'Icon-D.Va.png'
     },
     5: {
       name: 'Orisa',
-      icon_url: ''
+      icon_url: 'Icon-Orisa.png'
     },
     6: {
       name: 'Reinhardt',
-      icon_url: ''
+      icon_url: 'Icon-Reinhardt.png'
     },
     7: {
       name: 'Roadhog',
-      icon_url: ''
+      icon_url: 'Icon-Roadhog.png'
     },
     8: {
       name: 'Winston',
-      icon_url: ''
+      icon_url: 'Icon-Winston.png'
     },
     9: {
       name: 'Wrecking Ball',
-      icon_url: ''
+      icon_url: 'Icon-Wrecking_Ball.png'
     },
     10: {
       name: 'Zarya',
-      icon_url: ''
+      icon_url: 'Icon-Zarya.png'
     },
     11: {
       name: 'Ashe',
-      icon_url: ''
+      icon_url: 'Icon-Ashe.png'
     },
     12: {
       name: 'Bastion',
-      icon_url: ''
+      icon_url: 'Icon-Bastion.png'
     },
     13: {
       name: 'Doomfist',
-      icon_url: ''
+      icon_url: 'Icon-Doomfist.png'
     },
     14: {
       name: 'Genji',
-      icon_url: ''
+      icon_url: 'Icon-Genji.png'
     },
     15: {
       name: 'Hanzo',
-      icon_url: ''
+      icon_url: 'Icon-Hanzo.png'
     },
     16: {
       name: 'Junkrat',
-      icon_url: ''
+      icon_url: 'Icon-Junkrat.png'
     },
     17: {
       name: 'McCree',
-      icon_url: ''
+      icon_url: 'Icon-McCree.png'
     },
     18: {
       name: 'Mei',
-      icon_url: ''
+      icon_url: 'Icon-Mei.png'
     },
     19: {
       name: 'Pharah',
-      icon_url: ''
+      icon_url: 'Icon-Pharah.png'
     },
     20: {
       name: 'Reaper',
-      icon_url: ''
+      icon_url: 'Icon-Reaper.png'
     },
     21: {
       name: 'Soldier: 76',
-      icon_url: ''
+      icon_url: 'Icon-Soldier_76.png'
     },
     22: {
       name: 'Sombra',
-      icon_url: ''
+      icon_url: 'Icon-Sombra.png'
     },
     23: {
       name: 'Symmetra',
-      icon_url: ''
+      icon_url: 'Icon-Symmetra.png'
     },
     24: {
-      name: 'TorbjÃ¶rn',
-      icon_url: ''
+      name: 'Torbjörn',
+      icon_url: 'Icon-Torbjörn.png'
     },
     25: {
       name: 'Tracer',
-      icon_url: ''
+      icon_url: 'Icon-Tracer.png'
     },
     26: {
       name: 'Widowmaker',
-      icon_url: ''
+      icon_url: 'Icon-Widowmaker.png'
     },
     27: {
       name: 'Ana',
-      icon_url: ''
+      icon_url: 'Icon-Ana.png'
     },
     28: {
       name: 'Baptiste',
-      icon_url: ''
+      icon_url: 'Icon-Baptiste.png'
     },
     29: {
       name: 'Brigitte',
-      icon_url: ''
+      icon_url: 'Icon-Brigitte.png'
     },
     30: {
-      name: 'LÃºcio',
-      icon_url: ''
+      name: 'Lúcio',
+      icon_url: 'Icon-Lúcio.png'
     },
     31: {
       name: 'Mercy',
-      icon_url: ''
+      icon_url: 'Icon-Mercy.png'
     },
     32: {
       name: 'Moira',
-      icon_url: ''
+      icon_url: 'Icon-Moira.png'
     },
     33: {
       name: 'Zenyatta',
-      icon_url: ''
+      icon_url: 'Icon-Zenyatta.png'
     },
   },
   '1c0aa6f7-0e03-4ceb-82de-ac53617f1b30': {
     1: {
       name: 'DPS',
-      icon_url: ''
+      icon_url: 'DPSRole.png'
     },
     2: {
       name: 'Tank',
-      icon_url: ''
+      icon_url: 'TankRole.png'
     },
     3: {
       name: 'Healer',
-      icon_url: ''
+      icon_url: 'HealerRole.png'
     },
     4: {
       name: 'Crafter',
-      icon_url: ''
+      icon_url: 'Blacksmith.png'
     },
     5: {
       name: 'Gatherer',
-      icon_url: ''
+      icon_url: 'Miner.png'
     },
     6: {
       name: 'Warrior',
-      icon_url: ''
+      icon_url: 'Warrior.png'
     },
     7: {
       name: 'Paladin',
-      icon_url: ''
+      icon_url: 'Paladin.png'
     },
     8: {
       name: 'Dark Knight',
-      icon_url: ''
+      icon_url: 'DarkKnight.png'
     },
     9: {
       name: 'Gunbreaker',
-      icon_url: ''
+      icon_url: 'TankRole.png'
     },
     10: {
       name: 'Dragoon',
-      icon_url: ''
+      icon_url: 'Dragoon.png'
     },
     11: {
       name: 'Monk',
-      icon_url: ''
+      icon_url: 'Monk.png'
     },
     12: {
       name: 'Ninja',
-      icon_url: ''
+      icon_url: 'Ninja.png'
     },
     13: {
       name: 'Samurai',
-      icon_url: ''
+      icon_url: 'Samurai.png'
     },
     14: {
       name: 'Bard',
-      icon_url: ''
+      icon_url: 'Bard.png'
     },
     15: {
       name: 'Machinist',
-      icon_url: ''
+      icon_url: 'Machinist.png'
     },
     16: {
       name: 'Dancer',
-      icon_url: ''
+      icon_url: 'DPSRole.png'
     },
     17: {
       name: 'Black Mage',
-      icon_url: ''
+      icon_url: 'BlackMage.png'
     },
     18: {
       name: 'Summoner',
-      icon_url: ''
+      icon_url: 'Summoner.png'
     },
     19: {
       name: 'Red Mage',
-      icon_url: ''
+      icon_url: 'RedMage.png'
     },
     20: {
       name: 'Blue Mage',
-      icon_url: ''
+      icon_url: 'BlueMage.png'
     },
     21: {
       name: 'White Mage',
-      icon_url: ''
+      icon_url: 'WhiteMage.png'
     },
     22: {
       name: 'Scholar',
-      icon_url: ''
+      icon_url: 'Scholar.png'
     },
     23: {
       name: 'Astrologian',
-      icon_url: ''
+      icon_url: 'Astrologian.png'
     },
     24: {
       name: 'Miner',
-      icon_url: ''
+      icon_url: 'Miner.png'
     },
     25: {
       name: 'Botanist',
-      icon_url: ''
+      icon_url: 'Botanist.png'
     },
     26: {
       name: 'Fisher',
-      icon_url: ''
+      icon_url: 'Fisher.png'
     },
     27: {
       name: 'Carpenter',
-      icon_url: ''
+      icon_url: 'Carpenter.png'
     },
     28: {
       name: 'Blacksmith',
-      icon_url: ''
+      icon_url: 'Blacksmith.png'
     },
     29: {
       name: 'Armorer',
-      icon_url: ''
+      icon_url: 'Armorer.png'
     },
     30: {
       name: 'Goldsmith',
-      icon_url: ''
+      icon_url: 'Goldsmith.png'
     },
     31: {
       name: 'Leatherworker',
-      icon_url: ''
+      icon_url: 'Leatherworker.png'
     },
     32: {
       name: 'Weaver',
-      icon_url: ''
+      icon_url: 'Weaver.png'
     },
     33: {
       name: 'Alchemist',
-      icon_url: ''
+      icon_url: 'Alchemist.png'
     },
     34: {
       name: 'Culinarian',
-      icon_url: ''
+      icon_url: 'Culinarian.png'
     },
   },
   '2e443716-4f9e-4a1c-89c9-ad4801f6dcc0': {
