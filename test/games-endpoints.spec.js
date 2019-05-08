@@ -223,11 +223,6 @@ describe("Games Endpoints", () => {
         //     role_id: 2
         //   }
         // ];
-        // Promise.all([
-        //   db.into("users").insert(user),
-        //   db.into("games").insert(gamesArray),
-        //   db.into("party").insert(party)
-        // ]);
         return db.into('users').insert(user)
           .then(() => db.into("games").insert(gamesArray))
           .then(() => db.into("party").insert(party));

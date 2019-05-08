@@ -41,6 +41,69 @@ describe("User Endpoints", () => {
         .expect(201);
     });
   });
+  describe("GET user", () => {
+    context("given there is a user in the database", () => {
+      beforeEach("insert seed data", () => {
+        const user = [
+          {
+            id: 1,
+            username: "test",
+            avatar_url:
+              "https://i.ebayimg.com/images/g/PfAAAOSwA3dYIPRN/s-l300.jpg",
+            email: "armorysquad@gmail.com",
+            password:
+              "$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG"
+          }
+        ];
+        return db.into("users").insert(user);
+      });
+      it("responds with the user", () => {
+        const expected = {
+          userInfo: {
+            avatar_url:
+              "https://i.ebayimg.com/images/g/PfAAAOSwA3dYIPRN/s-l300.jpg",
+            email: "armorysquad@gmail.com",
+            id: 1,
+            username: "test"
+          }
+        };
+        return supertest(app)
+          .get("/api/user/1")
+          .expect(200, expected);
+      });
+    });
+    context("given there a malicious user in the database", () => {
+      beforeEach("insert seed data", () => {
+        const user = [
+          {
+            id: 1,
+            username: "<script>test</script>",
+            avatar_url:
+              "https://i.ebayimg.com/images/g/PfAAAOSwA3dYIPRN/s-l300.jpg",
+            email: "armorysquad@gmail.com",
+            password:
+              "$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG"
+          }
+        ];
+        return db.into("users").insert(user);
+      });
+      it("responds with a sanitized version of the input", () => {
+        const expected = {
+          userInfo: {
+            avatar_url:
+              "https://i.ebayimg.com/images/g/PfAAAOSwA3dYIPRN/s-l300.jpg",
+            email: "armorysquad@gmail.com",
+            id: 1,
+            username: "<script>test</script>"
+          }
+        };
+        //How to reset count of id primary keys in SQL within tests?
+        return supertest(app)
+          .get("/api/user/1")
+          .expect(200, expected);
+      });
+    });
+  });
   describe("PATCH user", () => {
     context("given no bearer token", () => {
       it("responds with an error", () => {
@@ -49,7 +112,7 @@ describe("User Endpoints", () => {
           .expect(401, { error: "Missing bearer token" });
       });
     });
-    context("given the user does not exist", () => {
+    context("given there is nothing to update", () => {
       beforeEach("insert seed data", () => {
         const user = [
           {
@@ -64,12 +127,43 @@ describe("User Endpoints", () => {
         ];
         return db.into("users").insert(user);
       });
-      it('responds with an error', () => {
+      it("responds with an error", () => {
         return supertest(app)
           .patch("/api/user/1")
           .set("authorization", `bearer ${process.env.TEST_BEARER_TOKEN}`)
-          .expect(400, {error: "Nothing to update"});
-      })
-    })
+          .expect(400, { error: "Nothing to update" });
+      });
+    });
+    context("given the user does exist", () => {
+      beforeEach("insert seed data", () => {
+        const user = [
+          {
+            id: 1,
+            username: "admin",
+            avatar_url:
+              "https://i.ebayimg.com/images/g/PfAAAOSwA3dYIPRN/s-l300.jpg",
+            email: "armorysquad@gmail.com",
+            password:
+              "$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG"
+          }
+        ];
+        return db.into("users").insert(user);
+      });
+      it("responds with 201", () => {
+        const updates = {
+          avatar_url: "New image"
+        };
+        const expected = {
+          updates: {
+            avatar_url: "New image"
+          }
+        };
+        return supertest(app)
+          .patch("/api/user/1")
+          .set("authorization", `bearer ${process.env.TEST_BEARER_TOKEN}`)
+          .send(updates)
+          .expect(201, expected);
+      });
+    });
   });
 });
