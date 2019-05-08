@@ -50,11 +50,25 @@ describe("User Endpoints", () => {
       });
     });
     context("given the user does not exist", () => {
-      it.only('responds with an error', () => {
+      beforeEach("insert seed data", () => {
+        const user = [
+          {
+            id: 1,
+            username: "admin",
+            avatar_url:
+              "https://i.ebayimg.com/images/g/PfAAAOSwA3dYIPRN/s-l300.jpg",
+            email: "armorysquad@gmail.com",
+            password:
+              "$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG"
+          }
+        ];
+        return db.into("users").insert(user);
+      });
+      it('responds with an error', () => {
         return supertest(app)
           .patch("/api/user/1")
-          .set("Authorization", `Bearer ${process.env.TEST_BEARER_TOKEN}`)
-          .expect();
+          .set("authorization", `bearer ${process.env.TEST_BEARER_TOKEN}`)
+          .expect(400, {error: "Nothing to update"});
       })
     })
   });

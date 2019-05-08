@@ -41,10 +41,7 @@ describe("Party Endpoints", () => {
         return supertest(app)
           .post("/api/parties")
           .set("Authorization", `Bearer ${process.env.TEST_BEARER_TOKEN}`)
-          .expect(500, {
-            message: "Cannot set property 'owner_id' of undefined",
-            error: {}
-          });
+          .expect(500);
       });
     });
   });
