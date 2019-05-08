@@ -37,6 +37,7 @@ app.use('/api/games', gamesRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/spot', SpotRouter);
 app.use('/api/confirmation', mailerRouter);
+app.use('/images', express.static('images'));
 
 app.use(function errorHandler(error, req, res, next) {
   let response;
