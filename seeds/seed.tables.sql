@@ -1,103 +1,89 @@
 BEGIN;
 TRUNCATE archived_messages, party_messages, party, party_requirements, party_apps, spot_roles, spots, games, users;
-INSERT INTO users (username, email, password, avatar_url, not_verified)
+INSERT INTO users (username, email, password, not_verified)
 VALUES
     (
       'admin',
       'armorysquad@gmail.com',
       '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
-      'https://i.ebayimg.com/images/g/PfAAAOSwA3dYIPRN/s-l300.jpg',
       null
     ),
     (
       'test1',
       'test1@gmail.com',
       '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
-      'https://i.ebayimg.com/images/g/PfAAAOSwA3dYIPRN/s-l300.jpg',
       null
     ),
     (
       'test2',
       'test2@gmail.com',
       '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
-      'https://i.ebayimg.com/images/g/PfAAAOSwA3dYIPRN/s-l300.jpg',
       null
     ),
     (
       'test3',
       'test3@gmail.com',
       '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
-      'https://i.ebayimg.com/images/g/PfAAAOSwA3dYIPRN/s-l300.jpg',
       null
     ),
     (
       'test4',
       'test4@gmail.com',
       '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
-      'https://i.ebayimg.com/images/g/PfAAAOSwA3dYIPRN/s-l300.jpg',
       null
     ),
     (
       'test5',
       'test5@gmail.com',
       '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
-      'https://i.ebayimg.com/images/g/PfAAAOSwA3dYIPRN/s-l300.jpg',
       null
     ),
     (
       'test6',
       'test6@gmail.com',
       '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
-      'https://i.ebayimg.com/images/g/PfAAAOSwA3dYIPRN/s-l300.jpg',
       null
     ),
     (
       'test7',
       'test7@gmail.com',
       '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
-      'https://i.ebayimg.com/images/g/PfAAAOSwA3dYIPRN/s-l300.jpg',
       null
     ),
     (
       'test8',
       'test8@gmail.com',
       '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
-      'https://i.ebayimg.com/images/g/PfAAAOSwA3dYIPRN/s-l300.jpg',
       null
     ),
     (
       'test9',
       'test9@gmail.com',
       '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
-      'https://i.ebayimg.com/images/g/PfAAAOSwA3dYIPRN/s-l300.jpg',
       null
     ),
     (
       'test10',
       'test10@gmail.com',
       '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
-      'https://i.ebayimg.com/images/g/PfAAAOSwA3dYIPRN/s-l300.jpg',
       null
     ),
     (
       'test11',
       'test11@gmail.com',
       '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
-      'https://i.ebayimg.com/images/g/PfAAAOSwA3dYIPRN/s-l300.jpg',
       null
     ),
     (
       'test12',
       'test12@gmail.com',
       '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
-      'https://i.ebayimg.com/images/g/PfAAAOSwA3dYIPRN/s-l300.jpg',
       null
     ),
     (
       'test13',
       'test13@gmail.com',
       '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
-      'https://i.ebayimg.com/images/g/PfAAAOSwA3dYIPRN/s-l300.jpg',
       null
     );
 
