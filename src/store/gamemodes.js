@@ -2,7 +2,7 @@ const GAMEMODE_STORE = {
   'aa0e8ce9-1a71-42e7-804d-6838556fa6ed': {
     1: {
       name: 'Quick Play',
-      icon_url: ''
+      icon_url: 'Gamemode-Quickplay.png'
     },
     2: {
       name: 'Arcade',
