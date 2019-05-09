@@ -103,6 +103,23 @@ PartyRouter
   });
 
 PartyRouter
+  .get('/auth/:partyId', requireAuth, async (req, res, next) => {
+    const {partyId} = req.params;
+    const user = req.user.id;
+    try {
+      let partyResponse = await PartyService.confirmPartyMember(req.app.get('db'), user, partyId);
+      console.log(partyResponse);
+      if(partyResponse.length < 1){
+        return res.status(404).json({ error: 'Unauthorized'});
+      }
+      return res.json(partyResponse);
+    } catch (error) {
+      next(error);
+    }
+
+  });
+
+PartyRouter
   .route('/messages/:partyId')
   .get(async (req, res, next) => {
     const { partyId } = req.params;

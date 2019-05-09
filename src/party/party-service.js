@@ -193,6 +193,13 @@ const PartyService = {
     return db('party_messages')
       .where('party_id', partyId)
       .del();
+  },
+  confirmPartyMember(db, id, partyId ){
+    return db
+    .from('spots')
+    .where('party_id', partyId)
+    .andWhere('filled', id)
+    .first()
   }
 };
 
