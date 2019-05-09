@@ -21,7 +21,12 @@ SpotRouter
       }
 
       if (spot.filled) {
-        return res.json({ error: 'Spot is already taken' });
+        return res.status(400).json({ error: 'Spot is already taken' });
+      }
+
+      const userSpot = await SpotService.getSpotByUserId(db, req.user.id);
+      if (userSpot) {
+        return res.status(400).json({ error: 'Cannot be in multiple squads!' });
       }
 
       const [{count}] = await SpotService.getSpotsLeft(db, party_id);

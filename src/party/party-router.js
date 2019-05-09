@@ -19,24 +19,27 @@ PartyRouter
     try {
       const { party, spots, requirement, room_id } = req.body;
       party.owner_id = req.user.id;
-      //Verify information here
-      console.log('my check for request', party, spots, requirement, room_id);
       //party checks
       if (!party.game_id || !party.title || !(party.gamemode || party.gamemode === 0)) {
-        return res.json({ error: 'Missing required party information' });
+        return res.status(400).json({ error: 'Missing required party information' });
       }
 
       //spot checks
       if (spots.length < 1) {
-        return res.json({ error: 'Must have at least one additional spot available' });
+        return res.status(400).json({ error: 'Must have at least one additional spot available' });
       }
 
       //requirement checks:
       if (requirement.length > 2) {
-        return res.json({ error: 'Can only have 2 requirements maximum per party' });
+        return res.status(400).json({ error: 'Can only have 2 requirements maximum per party' });
       }
       if (requirement.length === 2 && requirement[0] === requirement[1]) {
-        return res.json({ error: 'Cannot have duplicate requirements' });
+        return res.status(400).json({ error: 'Cannot have duplicate requirements' });
+      }
+
+      const userParty = await SpotService.getSpotByUserId(db, req.user.id);
+      if (userParty) {
+        return res.status(400).json({ error: 'Cannot be in multiple parties' })
       }
 
       //inserts the party and grabs the ID

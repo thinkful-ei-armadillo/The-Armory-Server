@@ -46,13 +46,19 @@ const SpotService = {
       .andWhere({party_id})
       .first();
   },
-  getSpotsLeft: async function(db, partyId) {
+  getSpotsLeft: function(db, partyId) {
     return db
       .count('*')
       .from('spots')
       .where('party_id', partyId)
       .andWhere('filled', null);
   },
+  getSpotByUserId: function(db, userId) {
+    return db('spots')
+      .select('*')
+      .where('filled', userId)
+      .first();
+  }
 };
 
 module.exports = SpotService;
