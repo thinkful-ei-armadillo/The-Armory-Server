@@ -246,7 +246,7 @@ describe("Games Endpoints", () => {
               },
               description: "This is a description of this party.",
               gamemode: {
-                icon_url: "",
+                icon_url: "Gamemode-Quickplay.png",
                 name: "Quick Play"
               },
               reqs: [{}],

@@ -37,7 +37,7 @@ describe("Party Endpoints", () => {
           .post("/api/parties")
           .expect(401);
       });
-      it.skip("responds with an invalid request when bearer token provided but invalid request body", () => {
+      it.only("responds with an invalid request when bearer token provided but invalid request body", () => {
         return supertest(app)
           .post("/api/parties")
           .set("Authorization", `Bearer ${process.env.TEST_BEARER_TOKEN}`)
@@ -95,7 +95,7 @@ describe("Party Endpoints", () => {
           owner_id: 1,
           description: "This is a description of this party.",
           require_app: true,
-          gamemode: { name: "Quick Play", icon_url: "" },
+          gamemode: { name: "Quick Play", icon_url: "Gamemode-Quickplay.png" },
           reqs: [{}],
           spots: [{ id: null, filled: null, roles: [{}] }]
         };
