@@ -8,6 +8,10 @@ module.exports = {
   DB_URL: process.env.DATABASE_URL || 'postgresql://postgres@localhost/armory',
   JWT_SECRET: process.env.JWT_SECRET || 'super-secret-secret',
   JWT_EXPIRY: process.env.JWT_EXPIRY || '3h',
+<<<<<<< HEAD
   PARTY_DISPLAY_LIMIT: 10,
 
+=======
+  PARTY_DISPLAY_LIMIT: 20,
+>>>>>>> f3ffb1b2cfa8466df6181d347a42b9df9bfce6ac
 };
