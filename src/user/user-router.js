@@ -43,8 +43,7 @@ userRouter.post('/', bodyParser, async (req, res, next) => {
     const newUser = {
       username: username,
       password: hashedPassword,
-      email,
-      avatar_url: ''
+      email
     };
     const user = await UserService.insertUser(req.app.get('db'), newUser);
     await mailer(user);
