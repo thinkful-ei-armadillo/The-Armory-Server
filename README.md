@@ -1,34 +1,15 @@
-# Express Boilerplate!
+<p align="center">
+    <h2>Squad Armory</h2> 
+    <span>An app for gamers to find friends to play with in their favorite online multiplayer game.</span>
+    <br/>
+    <br/>
+    <a href="https://squad-armory.now.sh">Live Version</a>
+    </p>
 
-This is a boilerplate project used for starting new projects!
+## Why
 
-## Set up
+Finding friends to play online video games with is hard. Sometimes life gets in the way and schedules don't line up. Or maybe you just don't have any friends to begin with. Don't fret because that's where Squad Armory comes in! Find your favorite game and join a squad that's looking exactly for whatever role you play. Can't find one that's right for you? Create your own squad and find your perfect teammates! Whether you're looking for something more casual or more competitive, you can be as general or as specific as you'd like when creating a squad. Chat with your new squadmates within the app and plan out your gaming session. Squad up and join Squad Armory!
 
-Complete the following steps to start a new project (NEW-PROJECT-NAME):
+## More at the client repo
 
-1. Clone this repository to your local machine `git clone BOILERPLATE-URL NEW-PROJECTS-NAME`
-2. `cd` into the cloned repository
-3. Make a fresh start of the git history for this project with `rm -rf .git && git init`
-4. Install the node dependencies `npm install`
-5. Move the example Environment file to `.env` that will be ignored by git and read by the express server `mv example.env .env`
-6. Edit the contents of the `package.json` to use NEW-PROJECT-NAME instead of `"name": "express-boilerplate",`
-
-## Scripts
-
-Start the application `npm start`
-
-Start nodemon for the application `npm run dev`
-
-Run the tests `npm test`
-
-## Deploying
-
-When your new project is ready for deployment, add a new Heroku application with `heroku create`. This will make a new git remote called "heroku" and you can then `npm run deploy` which will push to this remote's master branch.
-
-## Seeding Database
-
-Copy .csv files from shared Google Docs and save locally
-Run seed.tables.sql
-Go to dbeaver, right click on table, import data, select .csv file, next until finished
-Do for both requirement and roles tables
-Run seed.aftercsv.sql
+[Squad Armory Client](https://github.com/thinkful-ei-armadillo/The-Armory-Client)
