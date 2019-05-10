@@ -11,29 +11,33 @@ userRouter.post('/', bodyParser, async (req, res, next) => {
   const { password, username, email } = req.body;
 
   for (const field of ['email', 'username', 'password'])
-    if (!req.body[field])
-      return res.status(400).json({
-        error: `Missing '${field}' in request body`
-      });
+  if (!req.body[field])
+    return res.status(400).json({
+      message: `Missing '${field}' in request body`
+    });
+
   try {
+    let error = {};
     const passwordError = UserService.validatePassword(password);
-    if (passwordError) return res.status(400).json({ error: passwordError });
+    if (passwordError) error.passwordError = passwordError;
 
     const hasUserWithUserName = await UserService.hasUserWithUserName(
       req.app.get('db'),
       username
     );
     if (hasUserWithUserName)
-      return res.status(400).json({ error: 'username is taken' });
+      error.usernameError = 'Username is taken';
 
     const hasUserWithEmail = await UserService.hasUserWithEmail(
       req.app.get('db'),
       email
     );
     if (hasUserWithEmail)
-      return res
-        .status(400)
-        .json({ error: 'This email has already been registered' });
+      error.emailError = 'This email has already been registered';
+
+    if (Object.keys(error).length > 0 ) {
+      return res.status(400).json(error);
+    }
 
     const hashedPassword = await UserService.hashPassword(password);
     const newUser = {
