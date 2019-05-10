@@ -35,7 +35,6 @@ gamesRouter.get("/", async (req, res, next) => {
     }));
 
     if (Object.keys(query).length > 0) {
-      console.log("query.query =", query.query);
       if (query.query === undefined) {
         query.query = "";
       }
@@ -43,8 +42,6 @@ gamesRouter.get("/", async (req, res, next) => {
         req.app.get("db"),
         query.query.split(" ")
       );
-      console.log("QUERY.QUERY.SPLIT", query.query.split(" "));
-      console.log("newGames", newGames);
       newGames.map(game => {
         const match = partyCountDashboard.find(item => item.id === game.id);
         game.party_count = match.party_count;
@@ -55,7 +52,6 @@ gamesRouter.get("/", async (req, res, next) => {
         game.requirements = gameRequirements;
         array.push(game);
       });
-      console.log("NEWGAMES ===", newGames);
       res.status(200).json(newGames);
     } else {
       res.status(200).json(array);
