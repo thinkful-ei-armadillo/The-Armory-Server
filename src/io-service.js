@@ -14,26 +14,21 @@ const ioService = {
     io = ioInstance;
 
     io.on("connection", function(socket) {
-      console.log("connected!");
 
       socket.on("leave party", async function(msg) {
         const db = app.get("db");
-        console.log("msg from leave party", msg);
         const { party_id, user_auth, room_id, game_id } = msg;
         try {
           const user_id = await requireSocketAuth(db, user_auth);
-          console.log("after await user auth", user_id);
 
           const spot = await SpotService.findUserSpot(db, user_id, party_id);
-          console.log("spot_id", spot.id);
 
           if (!spot) {
-            console.error("cannot find spot");
+            return;
           }
 
           await SpotService.updateSpot(db, spot.id, { filled: null });
           const { owner_id } = await PartyService.getOwnerId(db, party_id);
-          console.log("owner_id", owner_id);
 
           if (owner_id === user_id) {
             const newOwners = await SpotService.getNewOwnerId(
@@ -41,7 +36,6 @@ const ioService = {
               owner_id,
               party_id
             );
-            console.log("newOwners", newOwners);
 
             if (newOwners.length < 1) {
               await PartyService.deleteParty(db, party_id);
@@ -67,7 +61,6 @@ const ioService = {
             db,
             await PartyService.getPartyById(db, party_id)
           );
-          console.log('updated party', updatedParty)
 
           const [{ count }] = await SpotService.getSpotsLeft(db, party_id);
 
@@ -77,9 +70,7 @@ const ioService = {
 
           ioService.emitRoomEvent(count < 2 ? 'delist party' : 'spot updated', `/games/${game_id}`, updatedGamePageParty);
           ioService.emitRoomEvent('update party', room_id, updatedParty);
-          console.log("game_id", game_id);
         } catch (err) {
-          console.error(err);
           if (err.message === "Unauthorized request") {
             io.to(`${socket.id}`).emit(
               "post party error",
@@ -157,18 +148,10 @@ const ioService = {
           app.get("db"),
           messageData.party_id
         );
-        console.log(messageData.room_id);
+
         io.sockets
           .in(messageData.room_id)
           .emit("delete chat message", messages);
-      });
-
-      socket.on("leave game", function() {
-        console.log(socket.id);
-      });
-
-      socket.on("disconnect", function() {
-        console.log("disconnected");
       });
     });
   },

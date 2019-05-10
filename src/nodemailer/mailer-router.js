@@ -13,7 +13,6 @@ mailerRouter.get('/:token', async(req, res)=>{
     const {user} = jwt.verify(req.params.token, EMAIL_SECRET);
     await UserService.updateUser(db, user, {not_verified: false});
   } catch(e){
-    console.log(e);
     res.send('error');
   } 
   res.send('ok');
