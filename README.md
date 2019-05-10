@@ -11,4 +11,4 @@ Finding friends to play online video games with is hard. Sometimes life gets in 
 
 ## More at the client repo
 
-[Squad Armory Client](https://github.com/thinkful-ei-armadillo/The-Armory-Server)
+[Squad Armory Client](https://github.com/thinkful-ei-armadillo/The-Armory-Client)
