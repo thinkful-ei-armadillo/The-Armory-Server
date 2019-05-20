@@ -41,8 +41,6 @@ Finding friends to play online video games with is hard. Sometimes life gets in 
 - [Chai](https://www.chaijs.com/)
 - [Enzyme](https://airbnb.io/enzyme/)
 
-- [Server repository](https://github.com/thinkful-ei-armadillo/The-Armory-Server/)
-
 ## API
 
 ```
